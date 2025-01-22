@@ -64,15 +64,14 @@ def Courts(request):
     }
     return HttpResponse(template.render(context, request))
 
-def edit_Court(request, id=None):
+def edit_Court(request, id=None): 
     if id:
-        court = get_object_or_404(Court, id=id)
-        context = {'court': court}
-    else:
-        context = {'message': 'No Court selected for editing.'}
-
-    template = loader.get_template('home/Court-edit.html')
-    return HttpResponse(template.render(context, request))
+        court = get_object_or_404(Court, id=id) 
+        context = {'court': court} 
+    else: 
+        context = {'message': 'No Court selected for editing.'} 
+        template = loader.get_template('home/Court-edit.html') 
+        return HttpResponse(template.render(context, request))
 
 def CourtNew(request):
     if request.method == "POST":

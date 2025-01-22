@@ -1,60 +1,79 @@
 {% extends "master.html" %}
 
+{% block Navbar %}
+    {% include 'Navbar.html' %}
+{% endblock %}
 
-
-{%block Navbar%}
-{%include 'Navbar.html'%}
-{%endblock%}
-
-
-
-{%block left-menu%}
-  {%include 'left-menu.html'%}
-{%endblock%}
+{% block left-menu %}
+    {% include 'left-menu.html' %}
+{% endblock %}
 
 {% block content %}
-<div class="card">
-  <h5 class="card-header">Contextual Classes</h5>
-  <div class="table-responsive text-nowrap">
-    <table class="table">
-      <thead>
-        <tr>
-          <th><strong>COURT NAME</strong></th>
-          <th><strong>Start Time</strong></th>
-          <th><strong>End Time</strong></th>
-          <th><strong>COST COURT</strong></th>
-          <th><strong>TYPY COURT</strong></th>
-          <th>LOCATION</th>
-        </tr>
-      </thead>
-      <tbody class="table-border-bottom-0">
-
-        {% for item in courts %}
-          <tr class="table-default">
-            <td>
-              <img src="https://cdn-icons-png.flaticon.com/128/505/505730.png" loading="lazy" alt="Badminton" title="Badminton" width="40" height="40">
-              <span>{{item.name_court}}</td>
-              <td>{{item.start_time}}</td>
-              <td>{{item.end_time}}</td>
-              <td>{{item.type_court}}</td>
-              <td>{{item.cost_court}}</td>
-              <td><span class="badge bg-label-primary me-1">{{item.location}}</span></td>
-              <td>
-              <div class="dropdown">
-                  <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                    <i class="bx bx-dots-vertical-rounded"></i>
-                  </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="edit_Court/{{ item.id }}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                    <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                  </div>
-              </div>
-              </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+<div class="container mt-5">
+    <div class="card shadow-lg border-0">
+        <div class="card-header bg-gradient-primary text-white">
+            <h3>Chỉnh sửa sân <i class="fas fa-edit"></i></h3>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name_court">Tên sân:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-futbol"></i></span>
+                        </div>
+                        <input type="text" class="form-control rounded-pill border-primary" id="name_court" name="name_court" value="{{ court.name_court }}" required>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="start_time">Thời gian bắt đầu:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                        </div>
+                        <input type="time" class="form-control rounded-pill border-primary" id="start_time" name="start_time" value="{{ court.start_time }}" required>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="end_time">Thời gian kết thúc:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                        </div>
+                        <input type="time" class="form-control rounded-pill border-primary" id="end_time" name="end_time" value="{{ court.end_time }}" required>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="cost_court">Giá sân:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-money-bill-wave"></i></span>
+                        </div>
+                        <input type="number" class="form-control rounded-pill border-primary" id="cost_court" name="cost_court" value="{{ court.cost_court }}" required>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="type_court">Loại sân:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
+                        </div>
+                        <input type="text" class="form-control rounded-pill border-primary" id="type_court" name="type_court" value="{{ court.type_court }}" required>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="location">Địa điểm:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        </div>
+                        <input type="text" class="form-control rounded-pill border-primary" id="location" name="location" value="{{ court.location }}" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-4">Cập nhật <i class="fas fa-check-circle"></i></button>
+            </form>
+        </div>
+    </div>
 </div>
-  <div>
 {% endblock %}
