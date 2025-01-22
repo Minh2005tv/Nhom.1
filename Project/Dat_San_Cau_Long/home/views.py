@@ -64,13 +64,14 @@ def Courts(request):
     }
     return HttpResponse(template.render(context, request))
 
-# Edit a Payment
-def edit_Court(request, id):
-    court = get_object_or_404(Court, id=id)  # Use get_object_or_404 for error handling
+def edit_Court(request, id=None):
+    if id:
+        court = get_object_or_404(Court, id=id)
+        context = {'court': court}
+    else:
+        context = {'message': 'No Court selected for editing.'}
+
     template = loader.get_template('home/Court-edit.html')
-    context = {
-        'court': court,  # Fixed variable name
-    }
     return HttpResponse(template.render(context, request))
 
 def CourtNew(request):
