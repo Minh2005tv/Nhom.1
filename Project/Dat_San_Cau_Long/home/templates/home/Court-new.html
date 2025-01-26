@@ -1,0 +1,78 @@
+{% extends "master.html" %}
+
+{% block Navbar %}
+    {% include 'Navbar.html' %}
+{% endblock %}
+
+{% block left-menu %}
+    {% include 'left-menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="card-header text-start" style="font-size: 2em; font-weight: bold; color: black;">Set Up a New Court</h2>
+    <div class="card shadow p-4">
+        <!-- Form thêm mới sân cầu lông -->
+        <form method="post" action="{% url 'Court-new' %}">
+            {% csrf_token %}
+            <!-- Tên sân -->
+            <div class="mb-3">
+                <label for="name_court" class="form-label">Name Court</label>
+                <input type="text" class="form-control" id="name_court" name="name_court" placeholder="Nhập tên sân" required>
+            </div>
+
+            <!-- Thời gian bắt đầu -->
+            <div class="mb-3">
+                <label for="start_time" class="form-label">Start Time</label>
+                <input type="time" class="form-control" id="start_time" name="start_time" required>
+            </div>
+
+            <!-- Thời gian kết thúc -->
+            <div class="mb-3">
+                <label for="end_time" class="form-label">End Time</label>
+                <input type="time" class="form-control" id="end_time" name="end_time" required>
+            </div>
+
+            <!-- Loại sân -->
+            <div class="mb-3">
+                <label for="type_court" class="form-label">Type Court</label>
+                <select class="form-select" id="type_court" name="type_court" required>
+                    <option value="Indoor">Indoor</option>
+                    <option value="Outdoor">Outdoor</option>
+                </select>
+            </div>
+
+            <!-- Cost Court sân -->
+            <div class="mb-3">
+                <label for="cost_court" class="form-label">Cost Court (VND)</label>
+                <input type="number" class="form-control" id="cost_court" name="cost_court" placeholder="Cost Court" required>
+            </div>
+
+            <!-- Status sân -->
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status" required>
+                    <option value="Available">Available</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+
+            <!-- Location -->
+            <div class="mb-3">
+                <label for="location" class="form-label"><strong>Location</strong></label>
+                <input type="text" class="form-control" id="location" name="location" 
+                       value="{{ court.location }}" required>
+            </div> 
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary">Add Court New</button>
+            <a href="{% url 'Courts' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{%block footer%}
+    {% include 'footer.html' %}
+{%endblock%}

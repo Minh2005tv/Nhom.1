@@ -91,7 +91,7 @@ def CourtNew(request):
     else:
         form = PaymentNewForm()
 
-    template = loader.get_template('home/Court/Court-new.html')  # Check this path
+    template = loader.get_template('home/Court-new.html')  # Check this path
     context = {
         'form': form,
     }

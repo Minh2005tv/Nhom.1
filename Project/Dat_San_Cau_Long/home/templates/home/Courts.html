@@ -14,17 +14,18 @@
 
 {% block content %}
 <div class="card">
-    <h5 class="card-header">Contextual Classes</h5>
-    <div class="table-responsive text-nowrap">
-      <table class="table">
-        <thead>
-          <tr>
-            <th><strong>COURT NAME</strong></th>
-            <th><strong>START TIME</strong></th>
-            <th><strong>END TIME</strong></th>
-            <th><strong>COST COURT</strong></th>
-            <th><strong>TYPY COURT</strong></th>
-            <th>LOCATION</th>
+  <h5 class="card-header text-start" style="font-size: 2em; font-weight: bold;">Badminton Courts & Schedule</h5>
+  <div class="table-responsive text-nowrap" style="overflow-x: auto;">
+    <table class="table w-100">
+      <thead class="table-dark">
+        <tr>
+          <th style="width: 20%;"><strong>COURT NAME</strong></th>
+          <th style="width: 15%;"><strong>START TIME</strong></th>
+          <th style="width: 15%;"><strong>END TIME</strong></th>
+          <th style="width: 15%;"><strong>COST COURT</strong></th>
+          <th style="width: 15%;"><strong>TYPE COURT</strong></th>
+          <th style="width: 20%;"><strong>LOCATION</strong></th>
+          <th style="width: 5%;"></th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -58,3 +59,7 @@
   </div>
     <div>
 {% endblock %}
+
+{%block footer%}
+    {% include 'footer.html' %}
+{%endblock%}
