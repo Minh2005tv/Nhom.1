@@ -1,0 +1,67 @@
+{% extends "master.html" %}
+
+
+
+{%block footer%}
+ {%include 'footer.html'%}
+
+{%endblock%}
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
+{% block nav-bar %}
+    {% include 'nav-bar.html' %}
+{% endblock %}
+
+{% block Content %}
+<div class="container mt-5">
+    <header class="text-center mb-4">
+        <h1 class="display-5">Court Booking Page</h1>
+        <p class="text-muted">Book your court quickly and easily</p>
+    </header>
+    <div class="card shadow p-4">
+        <h2 class="card-title text-center mb-4">Booking Information</h2>
+        <form action="/submit-booking/" method="post">
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="date" class="form-label">Booking Date</label>
+                    <input type="date" id="date" name="date" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="time" class="form-label">Booking Time</label>
+                    <input type="time" id="time" name="time" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="court" class="form-label">Court Selection</label>
+                    <select id="court" name="court" class="form-select" required>
+                        <option value="" disabled selected>-- Select a Court --</option>
+                        <option value="court_1">Court 1</option>
+                        <option value="court_2">Court 2</option>
+                        <option value="court_3">Court 3</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="notes" class="form-label">Additional Notes</label>
+                    <textarea id="notes" name="notes" class="form-control" rows="2" placeholder="Enter any special requests"></textarea>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg px-5">Submit Booking</button>
+            </div>
+        </form>
+    </div>
+    <footer class="text-center mt-5 text-muted">
+        <p>&copy; 2025 ProjectCauLong. All rights reserved.</p>
+    </footer>
+</div>
+{% endblock %}
