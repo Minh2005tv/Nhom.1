@@ -79,3 +79,219 @@
           </div>
     <div>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+<h4 class="mb-6">Thông Tin Người Dùng</h4>
+<form>
+    <div class="row g-6">
+        <div class="col-md-6">
+            <label class="form-label">Địa Chỉ Email</label>
+            <input type="text" class="form-control" placeholder="Nhập email của bạn"> </div> <div class="col-md-6"> <label class="form-label">Số Điện Thoại</label> <input type="text" class="form-control" placeholder="Nhập số điện thoại"> </div> </div> </form>
+
+<!-- JavaScript để ẩn/hiện phần thông tin thẻ -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      let creditCardForm = document.getElementById("form-credit-card");
+      let paymentMethods = document.querySelectorAll("input[name='payment-method']");
+
+      paymentMethods.forEach((method) => {
+          method.addEventListener("change", function() {
+              if (this.value === "paypal" || this.value === "cash") {
+                  creditCardForm.style.display = "none"; // Ẩn thông tin thẻ
+              } else {
+                  creditCardForm.style.display = "block"; // Hiển thị lại khi chọn thẻ
+              }
+          });
+      });
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% extends "master.html" %}
+
+
+
+{%block Navbar%}
+{%include 'Navbar.html'%}
+{%endblock%}
+
+
+
+{%block left-menu%}
+  {%include 'left-menu.html'%}
+{%endblock%}
+
+{% block content %}
+    <div class="container">
+      <div class="card px-3">
+        <div class="row">
+          <div class="col-lg-7 card-body border-end p-md-8">
+            <h4 class="mb-2">Phương Thức Thanh Toán</h4>
+            <div class="row g-5 py-8">
+              <div class="col-md col-lg-12 col-xl-6">
+                <div class="form-check custom-option custom-option-basic checked">
+                  <label class="form-check-label custom-option-content form-check-input-payment d-flex gap-4 align-items-center" for="customRadioVisa">
+                    <input name="customRadioTemp" class="form-check-input" type="radio" value="credit-card" id="customRadioVisa" checked="">
+                    <span class="custom-option-body">
+                      <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/icons/payments/visa-light.png" alt="visa-card" width="58" data-app-light-img="icons/payments/visa-light.png" data-app-dark-img="icons/payments/visa-dark.png" style="visibility: visible;">
+                      <span class="ms-4 fw-medium text-heading">Thẻ Tín Dụng</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-md col-lg-12 col-xl-6">
+                <div class="form-check custom-option custom-option-basic">
+                  <label class="form-check-label custom-option-content form-check-input-payment d-flex gap-4 align-items-center" for="customRadioPaypal">
+                    <input name="customRadioTemp" class="form-check-input" type="radio" value="paypal" id="customRadioPaypal">
+                    <span class="custom-option-body">
+                      <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/icons/payments/paypal-light.png" alt="paypal" width="58" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
+                      <span class="ms-4 fw-medium text-heading">Thẻ Ghi Nợ</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+               <div class="col-md col-lg-12 col-xl-6">
+                <div class="form-check custom-option custom-option-basic">
+                  <label class="form-check-label custom-option-content form-check-input-payment d-flex gap-4 align-items-center" for="customRadioPaypal">
+                    <input name="customRadioTemp" class="form-check-input" type="radio" value="paypal" id="customRadioPaypal">
+                    <span class="custom-option-body">
+                      <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/icons/payments/paypal-light.png" alt="paypal" width="58" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
+                      <span class="ms-4 fw-medium text-heading">Paypal</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md col-lg-12 col-xl-6">
+                <div class="form-check custom-option custom-option-basic">
+                  <label class="form-check-label custom-option-content form-check-input-payment d-flex gap-4 align-items-center" for="customRadioPaypal">
+                    <input name="customRadioTemp" class="form-check-input" type="radio" value="paypal" id="customRadioPaypal">
+                    <span class="custom-option-body">
+                      <img src="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/icons/payments/paypal-light.png" alt="paypal" width="58" data-app-light-img="icons/payments/paypal-light.png" data-app-dark-img="icons/payments/paypal-dark.png" style="visibility: visible;">
+                      <span class="ms-4 fw-medium text-heading">Tiền mặt</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+
+            </div>
+            <h4 class="mb-6">Thông Tin Người Dùng</h4>
+            <form>
+              <div class="row g-6">
+                <div class="col-md-6">
+                  <label class="form-label" for="billings-email">Địa Chỉ Email</label>
+                  <input type="text" id="billings-email" class="form-control" placeholder="nguyenvana1234@gmail.com">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="billings-password">Mật Khẩu</label>
+                  <input type="password" id="billings-password" class="form-control" placeholder="Password">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label" for="billings-country">Quê Quán</label>
+                  <input type="text" id="billings-country" class="form-control" placeholder="Hà Nội">
+                </div>
+                <div class="col-md-6">
+                  <label for="smallInput" class="form-label">Số điện thoại</label>
+                  <input type="text" id="billings-zip" class="form-control billings-zip-code" placeholder="0123456789" />
+                </div>
+                <div> 
+                </div>
+              </div>
+            </form>
+            <div id="form-credit-card">
+              <h4 class="mt-8 mb-6">Thông Tin Thẻ</h4>
+              <form>
+                <div class="row g-6">
+                  <div class="col-12">
+                    <label class="form-label" for="billings-card-num">Số Tài Khoản</label>
+                    <div class="input-group input-group-merge">
+                      <input type="text" id="billings-card-num" class="form-control billing-card-mask" placeholder="7465 8374 5837 5067" aria-describedby="paymentCard">
+                      <span class="input-group-text cursor-pointer p-1" id="paymentCard"><span class="card-type"></span></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label" for="billings-card-name">Họ Và Tên</label>
+                    <input type="text" id="billings-card-name" class="form-control" placeholder="Nguyễn Thị Ngọc Trâm">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label" for="billings-card-date">Ngày Hết Hạn</label>
+                    <input type="text" id="billings-card-date" class="form-control billing-expiry-date-mask" placeholder="MM/YY">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="form-label" for="billings-card-cvv">CVV</label>
+                    <input type="text" id="billings-card-cvv" class="form-control billing-cvv-mask" maxlength="3" placeholder="8386">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Pay Now</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-5 card-body p-md-8">
+            <h4 class="mb-2">Chi Tiết Hóa Đơn</h4>
+            <p class="mb-8">
+            </p>
+            <div class="bg-lighter p-6 rounded">
+              
+              <div class="d-flex align-items-center mb-4">
+                <h1 class="text-heading mb-0">$59.99</h1>
+                
+              </div>
+              
+            </div>
+            <div class="mt-5">
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0">Tổng Tạm Tính</p>
+                <h6 class="mb-0">$85.99</h6>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <p class="mb-0">Thuế</p>
+                <h6 class="mb-0">$4.99</h6>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                <p class="mb-0">Tổng</p>
+                <h6 class="mb-0">$90.98</h6>
+              </div>
+              <div class="d-grid mt-5">
+                <button class="btn btn-success">
+                  <span class="me-2">Proceed with Payment</span>
+                  <i class="icon-base bx bx-right-arrow-alt scaleX-n1-rtl"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+                 
