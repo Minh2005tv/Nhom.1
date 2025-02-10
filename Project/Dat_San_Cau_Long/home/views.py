@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -73,7 +73,7 @@ def PaymentNew(request):
 
 # List all Courts
 def Courts(request):
-     courts = Court.objects.all()  # Fixed variable naming
+    courts = Court.objects.all()  # Fixed variable naming
     template = loader.get_template('home/Courts.html')
     context = {
         'courts': courts,  # Updated context key
@@ -81,7 +81,7 @@ def Courts(request):
     return HttpResponse(template.render(context, request))
 
 
-# Edit Court
+#  Edit Court
 def edit_Court(request, id=None): 
     if id:
         court = get_object_or_404(Court, id=id) 
@@ -97,7 +97,6 @@ def CourtNew(request):
     if request.method == "POST":
         form = CourtNewForm(request.POST)
         if form.is_valid():
-            # Create and save the Payment instance
             court = Court(
                 name_court=form.cleaned_data['name_court'],
                 start_time=form.cleaned_data['start_time'],
@@ -108,9 +107,16 @@ def CourtNew(request):
             )
             court.save()
             return HttpResponseRedirect("/Courts")
-        else:
-            form = PaymentNewForm()
-             template = loader.get_template('home/Court-new.html')  
-        'form': form,
-    }
+    else:
+        form = CourtNewForm()  # Nên là CourtNewForm thay vì PaymentNewForm
+
+    template = loader.get_template('home/Court-new.html')
+    context = {'form': form}  # Định nghĩa context đúng cách
     return HttpResponse(template.render(context, request))
+
+def delete_court(request, court_id):
+    if request.method == "DELETE":
+        court = get_object_or_404(Court, id=court_id)
+        court.delete()
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
