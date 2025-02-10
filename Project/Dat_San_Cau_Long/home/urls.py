@@ -15,7 +15,6 @@ urlpatterns = [
     path('Payments/new/', views.PaymentNew, name='Payment-new'),
 
     # URL Court
-    path('Courts/', views.Courts, name='Courts'),
-    path('Courts/edit/<int:id>/', views.edit_Court, name='edit_Court'),
-    path('Courts/new/', views.CourtNew, name='Court-new'),
-]
+    path('Courts/', views.Courts, name='Courts'),  
+    path('Court-edit/', views.edit_Court, name='Court-edit'),
+    path('Court-new/', views.CourtNew, name='Court-new'), 
