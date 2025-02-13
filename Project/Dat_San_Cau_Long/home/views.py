@@ -80,6 +80,14 @@ def Courts(request):
     }
     return HttpResponse(template.render(context, request))
 
+def Court_CTM(request):
+    courtctm = Court_CTM.objects.all()  # Fixed variable naming
+    template = loader.get_template('home/Court-CTM.html')
+    context = {
+        'courtctm': courtctm,  # Updated context key
+    }
+    return HttpResponse(template.render(context, request))
+
 
 #  Edit Court
 def edit_Court(request, id=None): 
@@ -96,23 +104,24 @@ def edit_Court(request, id=None):
 def CourtNew(request):
     if request.method == "POST":
         form = CourtNewForm(request.POST)
+        print("Dữ liệu POST:", request.POST)  
+        
         if form.is_valid():
-            court = Court(
-                name_court=form.cleaned_data['name_court'],
-                start_time=form.cleaned_data['start_time'],
-                end_time=form.cleaned_data['end_time'],
-                status=form.cleaned_data['status'],
-                type_court=form.cleaned_data['type_court'],
-                cost_court=form.cleaned_data['cost_court'],
-            )
-            court.save()
-            return HttpResponseRedirect("/Courts")
-    else:
-        form = CourtNewForm()  # Nên là CourtNewForm thay vì PaymentNewForm
+            court = form.save()
+            messages.success(request, "Sân cầu lông đã được thêm thành công!")  
+            print("Saved successfully!")  
+            
+            return redirect("Courts")  
+        
+        else:
+            print("Lỗi form:", form.errors)  
+            messages.error(request, "Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin.")
 
-    template = loader.get_template('home/Court-new.html')
-    context = {'form': form}  # Định nghĩa context đúng cách
-    return HttpResponse(template.render(context, request))
+    else:
+        form = CourtNewForm()
+
+    return render(request, 'home/Court-new.html', {'form': form})
+
 
 def delete_court(request, court_id):
     if request.method == "DELETE":

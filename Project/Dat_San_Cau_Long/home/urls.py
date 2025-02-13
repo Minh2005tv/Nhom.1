@@ -18,6 +18,7 @@ urlpatterns = [
     # URL Court
     path('Courts/', views.Courts, name='Courts'),  
     path('Court-edit/', views.edit_Court, name='Court-edit'),
-    path('Court-new/', views.CourtNew, name='Court-new'), 
+    path('Court-new/', views.CourtNew, name='Court-new'),
     path('Court-delete/<int:court_id>/', delete_court, name="delete_court"),
+
 ]

@@ -1,0 +1,55 @@
+{% extends "master.html" %}
+
+{% block Navbar %}
+    {% include 'Navbar.html' %}
+{% endblock %}
+
+{% block left-menu %}
+    {% include 'left-menu.html' %}
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badminton Court Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <nav class="bg-green-800 p-4 text-white flex justify-between items-center">
+        <div class="text-xl font-bold">Active Badminton</div>
+        <div class="space-x-6 font-bold">
+            <a href="#" class="hover:underline">Home</a>
+            <a href="#" class="hover:underline">Courts</a>
+            <a href="#" class="hover:underline">About</a>
+            <a href="#" class="hover:underline">Contact</a>
+        </div>
+        <div class="space-x-4">
+            <button class="bg-yellow-500 p-2 rounded-md font-bold text-white">Login</button>
+        </div>
+    </nav>
+
+    <!-- Court Recommendations -->
+    <div class="container mx-auto mt-10 p-5">
+        <h1 class="text-3xl font-bold text-center">Recommended Badminton Courts</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            {% for court in recommended_courts %}
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="{{ court.image_url }}" alt="Court Image" class="w-full h-40 object-cover rounded-md">
+                <h2 class="text-xl font-bold mt-3">{{ court.name }}</h2>
+                <p class="text-gray-700">Location: {{ court.location }}</p>
+                <p class="text-gray-700">Cost: {{ court.cost }} per hour</p>
+                <a href="/Court-Booking/{{ court.id }}" class="block bg-blue-500 text-white text-center p-2 rounded-md mt-3">Book Now</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}

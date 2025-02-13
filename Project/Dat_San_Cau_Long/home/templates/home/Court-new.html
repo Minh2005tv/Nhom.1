@@ -15,24 +15,25 @@
         <!-- Form thêm mới sân cầu lông -->
         <form method="post" action="{% url 'Court-new' %}">
             {% csrf_token %}
+            
             <!-- Tên sân -->
             <div class="mb-3">
                 <label for="name_court" class="form-label">Name Court</label>
                 <input type="text" class="form-control" id="name_court" name="name_court" placeholder="Nhập tên sân" required>
             </div>
-
+        
             <!-- Thời gian bắt đầu -->
             <div class="mb-3">
                 <label for="start_time" class="form-label">Start Time</label>
                 <input type="time" class="form-control" id="start_time" name="start_time" required>
             </div>
-
+        
             <!-- Thời gian kết thúc -->
             <div class="mb-3">
                 <label for="end_time" class="form-label">End Time</label>
                 <input type="time" class="form-control" id="end_time" name="end_time" required>
             </div>
-
+        
             <!-- Loại sân -->
             <div class="mb-3">
                 <label for="type_court" class="form-label">Type Court</label>
@@ -41,14 +42,14 @@
                     <option value="Outdoor">Outdoor</option>
                 </select>
             </div>
-
-            <!-- Cost Court sân -->
+        
+            <!-- Giá thuê sân -->
             <div class="mb-3">
                 <label for="cost_court" class="form-label">Cost Court (VND)</label>
                 <input type="number" class="form-control" id="cost_court" name="cost_court" placeholder="Cost Court" required>
             </div>
-
-            <!-- Status sân -->
+        
+            <!-- Trạng thái sân -->
             <div class="mb-3">
                 <label for="status" class="form-label">Status</label>
                 <select class="form-select" id="status" name="status" required>
@@ -57,22 +58,27 @@
                     <option value="Closed">Closed</option>
                 </select>
             </div>
-
-            <!-- Location -->
+        
+            <!-- Địa điểm sân -->
             <div class="mb-3">
                 <label for="location" class="form-label"><strong>Location</strong></label>
-                <input type="text" class="form-control" id="location" name="location" 
-                       value="{{ court.location }}" required>
+                <input type="text" class="form-control" id="location" name="location" required>
             </div> 
-
+        
             <!-- Submit -->
-            <button type="submit" class="btn btn-primary">Add Court New</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             <a href="{% url 'Courts' %}" class="btn btn-secondary">Cancel</a>
         </form>
+        <script>
+            document.querySelector("form").addEventListener("submit", function(event) {
+                console.log("Form đã submit!");
+            });
+        </script>
+        
     </div>
 </div>
 {% endblock %}
 
-{%block footer%}
+{% block footer %}
     {% include 'footer.html' %}
-{%endblock%}
+{% endblock %}
