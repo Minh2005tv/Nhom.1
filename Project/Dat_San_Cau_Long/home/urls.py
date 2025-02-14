@@ -30,7 +30,7 @@ urlpatterns = [
     path('Booking-new', views.BookingNew, name='Booking-new'),
     path('submit-booking/', views.submit_booking, name='submit_booking'),
     path('payment/', views.process_payment, name='process_payment'),
-    path('submit-booking/', views.submit_booking, name='submit_booking'),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
