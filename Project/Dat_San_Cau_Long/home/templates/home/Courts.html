@@ -1,8 +1,23 @@
 {% extends "master.html" %}
 
+{% block Navbar %}
+{% include 'Navbar.html' %}
+{% endblock %}
+
+{% block left-menu %}
+{% include 'left-menu.html' %}
+{% endblock %}
+
 {% block content %}
 <div class="card">
-  <h5 class="card-header text-start" style="font-size: 2em; font-weight: bold;">Badminton Courts & Schedule</h5>
+  <h5 class="card-header text-start d-flex justify-content-between align-items-center" style="font-size: 2em; font-weight: bold; position: relative;">
+    Badminton Courts & Schedule
+<button class="btn btn-primary" onclick="window.location.href='/Court-new/'" 
+  style="position: absolute; right: 20px; top: 50%; transform: translateY(-40%);">
+  <i class="bx bx-plus"></i> Add Court
+</button>
+
+  </h5>
   <div class="table-responsive text-nowrap" style="overflow-x: auto;">
     <table class="table w-100">
       <thead class="table-dark">
@@ -84,4 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
 {% endblock %}
