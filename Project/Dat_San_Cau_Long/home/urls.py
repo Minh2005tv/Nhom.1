@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from .views import delete_court
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Đăng ký & Đăng nhập
@@ -20,4 +22,15 @@ urlpatterns = [
     path('Court-edit/', views.edit_Court, name='Court-edit'),
     path('Court-new/', views.CourtNew, name='Court-new'), 
     path('Court-delete/<int:court_id>/', delete_court, name="delete_court"),
+    
+    #URl Booking
+    path('', views.home, name = "home"),
+    path('Bookings', views.Bookings, name='Bookings'),
+    path('edit_Bookings/<int:id>/', views.edit_Bookings, name='edit_Bookings'),
+    path('Booking-new', views.BookingNew, name='Booking-new'),
+    path('submit-booking/', views.submit_booking, name='submit_booking'),
+    path('payment/', views.process_payment, name='process_payment'),
+   
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

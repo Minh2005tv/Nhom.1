@@ -1,67 +1,66 @@
 {% extends "master.html" %}
+{% load static %}
+<img src="{% static 'home/image/san_cau_long.jpg' %}" alt="Sân cầu lông" style="width:300px; height:auto;">
 
 
 
-{%block footer%}
- {%include 'footer.html'%}
-
-{%endblock%}
-{% block menu %}
-    {% include 'menu.html' %}
+{% block Navbar %}
+  {% include 'Navbar.html' %}
 {% endblock %}
 
-{% block nav-bar %}
-    {% include 'nav-bar.html' %}
+{% block left-menu %}
+  {% include 'left-menu.html' %}
 {% endblock %}
 
-{% block Content %}
-<div class="container mt-5">
-    <header class="text-center mb-4">
-        <h1 class="display-5">Court Booking Page</h1>
-        <p class="text-muted">Book your court quickly and easily</p>
-    </header>
-    <div class="card shadow p-4">
-        <h2 class="card-title text-center mb-4">Booking Information</h2>
-        <form action="/submit-booking/" method="post">
+
+{% block content %}
+<div class="flex justify-center items-center min-h-screen bg-gray-100 p-4 relative">
+    <img src="https://example.com/image.jpg" 
+    alt="Sân cầu lông" 
+    class="absolute top-0 left-0 w-full h-full object-cover opacity-20 blur-sm">
+
+    <div class="relative z-10 w-full max-w-lg bg-white shadow-2xl rounded-2xl p-8">
+        <h2 class="text-3xl font-bold text-center text-blue-700">Đặt Sân Cầu Lông</h2>
+        <p class="text-center text-gray-600 mt-2">Nhanh chóng và tiện lợi!</p>
+
+        <form method="POST" action="{% url 'Bookings' %}" class="mt-6">
             {% csrf_token %}
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="name" class="form-label">Full Name</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email address" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="date" class="form-label">Booking Date</label>
-                    <input type="date" id="date" name="date" class="form-control" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="time" class="form-label">Booking Time</label>
-                    <input type="time" id="time" name="time" class="form-control" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="court" class="form-label">Court Selection</label>
-                    <select id="court" name="court" class="form-select" required>
-                        <option value="" disabled selected>-- Select a Court --</option>
-                        <option value="court_1">Court 1</option>
-                        <option value="court_2">Court 2</option>
-                        <option value="court_3">Court 3</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="notes" class="form-label">Additional Notes</label>
-                    <textarea id="notes" name="notes" class="form-control" rows="2" placeholder="Enter any special requests"></textarea>
-                </div>
-            </div>
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary btn-lg px-5">Submit Booking</button>
-            </div>
+            
+            <label class="block font-medium">Chọn Sân:</label>
+            <select name="court" class="border-gray-300 shadow-sm w-full p-2 rounded">
+                <option value="Sân 1">Sân 1 - 100,000 VND/h</option>
+                <option value="Sân 2">Sân 2 - 120,000 VND/h</option>
+                <option value="Sân 3">Sân 3 - 150,000 VND/h</option>
+            </select>
+            
+            <label class="block font-medium mt-4">Chọn Ngày:</label>
+            <input type="date" name="date" class="border-gray-300 shadow-sm w-full p-2 rounded" required />
+            
+            <label class="block font-medium mt-4">Chọn Giờ:</label>
+            <input type="time" name="time" class="border-gray-300 shadow-sm w-full p-2 rounded" required />
+            
+            <label class="block font-medium mt-4">Phương Thức Thanh Toán:</label>
+            <select name="payment" class="border-gray-300 shadow-sm w-full p-2 rounded">
+                <option value="MoMo">MoMo</option>
+                <option value="ZaloPay">ZaloPay</option>
+                <option value="VNPay">VNPay</option>
+            </select>
+            
+            <button type="submit" class="w-full mt-6 bg-red-500 text-red-500 shadow-md hover:bg-red-400 py-2 px-4 rounded-lg font-bold">
+                Xác Nhận & Thanh Toán
+            </button>
         </form>
+
+        <div class="mt-6 text-center text-gray-700">
+            <div class="flex items-center justify-center gap-2">
+                <span class="text-red-500">📍</span>
+                <span>123 Đường ABC, Quận 1, TP.HCM</span>
+            </div>
+            <div class="flex items-center justify-center gap-2 mt-2">
+                <span class="text-green-500">📞</span>
+                <span>0909 123 456</span>
+            </div>
+        </div>
     </div>
-    <footer class="text-center mt-5 text-muted">
-        <p>&copy; 2025 ProjectCauLong. All rights reserved.</p>
-    </footer>
 </div>
 {% endblock %}
