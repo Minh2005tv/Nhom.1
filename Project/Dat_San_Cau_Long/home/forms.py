@@ -13,9 +13,8 @@ class PaymentNewForm(forms.Form):
 class CourtNewForm(forms.Form):
     name_court = forms.CharField(label="Court Name", max_length=100)
     location = forms.CharField(label="Location", max_length=100)
-    start_time = forms.DateTimeField(label="Start Time")
-    end_time = forms.DateTimeField(label="End Time")
+    start_time = forms.TimeField(label="Start Time")
+    end_time = forms.TimeField(label="End Time")
     status = forms.CharField(label="Status", max_length=50)
     type_court = forms.CharField(label="Court Type", max_length=50)
     cost_court = forms.DecimalField(label="Cost per Hour", max_digits=10, decimal_places=2)
-    active = forms.BooleanField(label="Active", initial=True)

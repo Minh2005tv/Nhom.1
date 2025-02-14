@@ -56,16 +56,25 @@
   </div>
 </div>
 
+<form method="post" id="delete-form">
+    {% csrf_token %}
+</form>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".delete-btn").forEach(button => {
         button.addEventListener("click", function () {
             const courtId = this.getAttribute("data-id");
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
             if (confirm("Bạn có chắc chắn muốn xóa sân này không?")) {
                 fetch(`/Court-delete/${courtId}/`, {
-                    method: "DELETE",
-                    headers: { "X-CSRFToken": "{{ csrf_token }}", "Content-Type": "application/json" }
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrftoken,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({})
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -73,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         alert("Xóa thành công!");
                         location.reload();
                     } else {
-                        alert("Lỗi khi xóa!");
+                        alert("Lỗi khi xóa: " + (data.error || "Không xác định"));
                     }
                 })
                 .catch(error => console.error("Lỗi:", error));

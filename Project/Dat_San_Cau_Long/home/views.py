@@ -104,38 +104,31 @@ def edit_Court(request, id=None):
 def CourtNew(request):
     if request.method == "POST":
         form = CourtNewForm(request.POST)
-        print("Dữ liệu POST:", request.POST)  
-        
-        if form.is_valid():
-            court = Court(
-                name_court=form.cleaned_data['name_court'],
-                start_time=form.cleaned_data['start_time'],
-                end_time=form.cleaned_data['end_time'],
-                status=form.cleaned_data['status'],
-                type_court=form.cleaned_data['type_court'],
-                cost_court=form.cleaned_data['cost_court'],
-            )
-            court.save()
-            return HttpResponseRedirect("/Courts")
-            court = form.save()
-            messages.success(request, "Sân cầu lông đã được thêm thành công!")  
-            print("Saved successfully!")  
-            
-            return redirect("Courts")  
-        
-        else:
-            print("Lỗi form:", form.errors)  
-            messages.error(request, "Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin.")
+        print("Dữ liệu POST:", request.POST)  # Debug dữ liệu nhận được
 
+        if form.is_valid():
+            # Lưu thủ công vào database vì Form không có .save()
+            Court.objects.create(
+                name_court=form.cleaned_data["name_court"],
+                location=form.cleaned_data["location"],
+                start_time=form.cleaned_data["start_time"],
+                end_time=form.cleaned_data["end_time"],
+                status=form.cleaned_data["status"],
+                type_court=form.cleaned_data["type_court"],
+                cost_court=form.cleaned_data["cost_court"]
+            )
+            
+            messages.success(request, "Sân cầu lông đã được thêm thành công!")
+            print("Saved successfully!")  # Debug xem đã lưu chưa
+            return redirect("Courts")  # Chuyển hướng về danh sách sân
+        else:
+            print("Lỗi form:", form.errors)  # Debug lỗi form
+            messages.error(request, "Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin.")
+    
     else:
-        form = CourtNewForm()  # Nên là CourtNewForm thay vì PaymentNewForm
-        form = CourtNewForm()
+        form = CourtNewForm()  # Khởi tạo form khi vào trang
 
     return render(request, 'home/Court-new.html', {'form': form})
-
-    template = loader.get_template('home/Court-new.html')
-    context = {'form': form}  # Định nghĩa context đúng cách
-    return HttpResponse(template.render(context, request))
 
 def delete_court(request, court_id):
     if request.method == "DELETE":
