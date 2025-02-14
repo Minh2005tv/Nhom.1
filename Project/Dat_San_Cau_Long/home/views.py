@@ -4,8 +4,8 @@ from django.template import loader
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from D_San_Mng.models import Court, Payment
-from .forms import CourtNewForm, PaymentNewForm
+from D_San_Mng.models import Court, Payment, Booking
+from .forms import CourtNewForm, PaymentNewForm, BookingNewForm
 
 # Home view
 def home(request):
@@ -136,3 +136,44 @@ def delete_court(request, court_id):
         court.delete()
         return JsonResponse({"success": True})
     return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
+
+
+# List all Payments
+def Bookings(request):
+    Bookings = Booking.objects.all()  # Fixed variable naming
+    template = loader.get_template('home/Bookings.html')
+    context = {
+        'Bookings': Bookings,  # Updated context key
+    }
+    return HttpResponse(template.render(context, request))
+
+
+# Edit a Payment
+def edit_Bookings(request, booking_id):  # Sử dụng 'booking_id' thay vì 'id'
+    # Tìm bản ghi Booking dựa trên booking_id
+    booking = get_object_or_404(Booking, booking_id=booking_id)
+    return render(request, 'edit_booking.html', {'booking': booking})
+
+# Create a New Payment
+def BookingNew(request):
+    if request.method == "POST":
+        form = BookingNewForm(request.POST)
+        if form.is_valid():
+            # Create and save the Payment instance
+            Booking = Booking(
+                booking_id=form.cleaned_data['booking_id'],
+                start_time=form.cleaned_data['start_time'],
+                end_time=form.cleaned_data['end_time'],
+                booking_date=form.cleaned_data['booking_date'],
+                active=form.cleaned_data['active'],
+            )
+            Booking.save()
+            return HttpResponseRedirect("/Bookings")
+    else:
+        form = BookingNewForm()
+
+    template = loader.get_template('home/Booking/Booking-new.html')  # Check this path
+    context = {
+        'form': form,
+    }
+    return HttpResponse(template.render(context, request))
