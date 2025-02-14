@@ -154,6 +154,19 @@ def edit_Bookings(request, booking_id):  # Sử dụng 'booking_id' thay vì 'id
     booking = get_object_or_404(Booking, booking_id=booking_id)
     return render(request, 'edit_booking.html', {'booking': booking})
 
+def process_payment(request):
+    return HttpResponse("Processing payment...")
+
+def submit_booking(request):
+    if request.method == "POST":
+        form = BookingNewForm(request.POST)
+        if form.is_valid():
+            booking = form.save()
+            return HttpResponseRedirect("/Bookings")  # Điều hướng sau khi đặt sân thành công
+    else:
+        form = BookingNewForm()
+
+    return render(request, "home/Booking/submit-booking.html", {"form": form})
 # Create a New Payment
 def BookingNew(request):
     if request.method == "POST":
