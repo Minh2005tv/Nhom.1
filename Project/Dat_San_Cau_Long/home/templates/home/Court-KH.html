@@ -1,0 +1,47 @@
+{% extends "master.html" %}
+
+{% block left-menu %}
+  {% include 'left-menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="card" style="margin-left: -200px; width: calc(100% + 140px);">
+  <h5 class="card-header text-start" style="font-size: 2em; font-weight: bold; position: relative;">
+    Badminton Courts & Schedule
+  </h5>
+  <div class="table-responsive text-nowrap" style="overflow-x: auto;">
+    <table class="table w-100">
+      <thead class="table-dark">
+        <tr>
+          <th style="width: 20%;"><strong>COURT NAME</strong></th>
+          <th style="width: 15%;"><strong>START TIME</strong></th>
+          <th style="width: 15%;"><strong>END TIME</strong></th>
+          <th style="width: 15%;"><strong>COST COURT</strong></th>
+          <th style="width: 15%;"><strong>TYPE COURT</strong></th>
+          <th style="width: 20%;"><strong>LOCATION</strong></th>
+          <th style="width: 5%;">
+        </tr>
+      </thead>
+      <tbody class="table-border-bottom-0">
+        {% for item in courts %}
+        <tr class="table-default">
+          <td>
+            <img src="https://cdn-icons-png.flaticon.com/128/505/505730.png" loading="lazy" alt="Badminton" title="Badminton" width="40" height="40">
+            <span>{{ item.name_court }}</span>
+          </td>
+          <td>{{ item.start_time }}</td>
+          <td>{{ item.end_time }}</td>
+          <td>{{ item.cost_court }}</td>
+          <td>{{ item.type_court }}</td>
+          <td><span class="badge bg-label-primary me-1">{{ item.location }}</span></td>
+          <td>
+            <a href="{% url 'Bookings' %}" class="btn btn-success">Book Now</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

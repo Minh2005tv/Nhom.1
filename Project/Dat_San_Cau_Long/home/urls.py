@@ -3,6 +3,7 @@ from . import views
 from .views import delete_court
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import delete_court
 
 urlpatterns = [
     # Đăng ký & Đăng nhập
@@ -18,8 +19,9 @@ urlpatterns = [
     path('Payments/new/', views.PaymentNew, name='Payment-new'),
 
     # URL Court
-    path('Courts/', views.Courts, name='Courts'),  
-    path('Court-edit/', views.edit_Court, name='Court-edit'),
+    path('Courts/', views.Courts, name='Courts'), 
+    path('Court-KH/', views.Court_KH, name='Court_KH'),
+    path('Court-edit/<int:id>/', views.edit_Court, name='Court-edit'),
     path('Court-new/', views.CourtNew, name='Court-new'), 
     path('Court-delete/<int:court_id>/', delete_court, name="delete_court"),
 

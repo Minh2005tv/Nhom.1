@@ -1,22 +1,13 @@
 {% extends "master.html" %}
 
-{% block Navbar %}
-{% include 'Navbar.html' %}
-{% endblock %}
-
-{% block left-menu %}
-{% include 'left-menu.html' %}
-{% endblock %}
-
 {% block content %}
-<div class="card">
+<div class="card" style="margin-left: -200px; width: calc(100% + 140px);">
   <h5 class="card-header text-start d-flex justify-content-between align-items-center" style="font-size: 2em; font-weight: bold; position: relative;">
     Badminton Courts & Schedule
-<button class="btn btn-primary" onclick="window.location.href='/Court-new/'" 
-  style="position: absolute; right: 20px; top: 50%; transform: translateY(-40%);">
-  <i class="bx bx-plus"></i> Add Court
-</button>
-
+    <button class="btn btn-primary" onclick="window.location.href='/Court-new/'" 
+      style="position: absolute; right: 20px; top: 50%; transform: translateY(-40%);">
+      <i class="bx bx-plus"></i> Add Court
+    </button>
   </h5>
   <div class="table-responsive text-nowrap" style="overflow-x: auto;">
     <table class="table w-100">
@@ -33,7 +24,7 @@
       </thead>
       <tbody class="table-border-bottom-0">
         {% for item in courts %}
-        <tr class="table-default">
+        <tr class="table-default" id="court-row-{{ item.id_court }}">
           <td>
             <img src="https://cdn-icons-png.flaticon.com/128/505/505730.png" loading="lazy" alt="Badminton" title="Badminton" width="40" height="40">
             <span>{{ item.name_court }}</span>
@@ -49,8 +40,10 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
               </button>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="/Court-edit/{{ item.id }}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                <a class="dropdown-item delete-btn" href="javascript:void(0);" data-id="{{ item.id }}">
+                <a class="dropdown-item" href="{% url 'Court-edit' id=item.id_court %}">
+                  <i class="bx bx-edit-alt me-1"></i> Edit
+                </a>
+                <a class="dropdown-item delete-btn" href="javascript:void(0);" data-id="{{ item.id_court }}">
                   <i class="bx bx-trash me-1"></i> Delete
                 </a>
               </div>
@@ -67,6 +60,7 @@
     {% csrf_token %}
 </form>
 
+<!-- JavaScript -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".delete-btn").forEach(button => {
@@ -74,20 +68,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const courtId = this.getAttribute("data-id");
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
+            console.log("Deleting court ID:", courtId); // Debug
+
             if (confirm("Bạn có chắc chắn muốn xóa sân này không?")) {
                 fetch(`/Court-delete/${courtId}/`, {
-                    method: "POST",
+                    method: "POST", // Chuyển DELETE thành POST do CSRF
                     headers: {
                         "X-CSRFToken": csrftoken,
                         "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({})
+                    }
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log("Delete response:", data); // Debug
                     if (data.success) {
                         alert("Xóa thành công!");
-                        location.reload();
+                        document.getElementById(`court-row-${courtId}`).remove(); // Xóa hàng khỏi bảng
                     } else {
                         alert("Lỗi khi xóa: " + (data.error || "Không xác định"));
                     }
@@ -99,8 +95,4 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-{% endblock %}
-
-{% block footer %}
-{% include 'footer.html' %}
 {% endblock %}

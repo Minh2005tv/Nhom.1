@@ -1,79 +1,61 @@
 {% extends "master.html" %}
 
-{% block Navbar %}
-{% include 'Navbar.html' %}
-{% endblock %}
-
-{% block left-menu %}
-{% include 'left-menu.html' %}
-{% endblock %}
-
 {% block content %}
-<div class="card">
-    <h2 class="card-header text-start" style="font-size: 2em; font-weight: bold;">Edit Court</h2>
-    <div class="card-body">
-        <form method="POST" action="">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="name_court" class="form-label"><strong>Court Name</strong></label>
-                <input type="text" class="form-control" id="name_court" name="name_court" 
-                       value="{{ court.name_court }}" required>
-            </div>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
+    <div class="card shadow p-4" style="margin-left: -250px; width: 800%; max-width: 800px; border-radius: 50px;">
+        <h2 class="text-center mb-4" style="font-size: 1.8em; font-weight: bold;">Edit Court</h2>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="name_court" class="form-label"><strong>Name Court</strong></label>
+                    <input type="text" class="form-control" id="name_court" name="name_court" value="{{ form.name_court.value }}" required>
+                </div>
 
-             <!-- Start Time -->
-            <div class="mb-3">
-                <label for="start_time" class="form-label"><strong>Start Time</strong></label>
-                <input type="time" class="form-control" id="start_time" name="start_time" 
-                       value="{{ court.start_time }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="start_time" class="form-label"><strong>Start Time</strong></label>
+                    <input type="time" class="form-control" id="start_time" name="start_time" value="{{ form.start_time.value|default_if_none:'' }}" required>
+                </div>
 
-             <!-- End Time -->
-            <div class="mb-3">
-                <label for="end_time" class="form-label"><strong>End Time</strong></label>
-                <input type="time" class="form-control" id="end_time" name="end_time" 
-                       value="{{ court.end_time }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="end_time" class="form-label"><strong>End Time</strong></label>
+                    <input type="time" class="form-control" id="end_time" name="end_time" value="{{ form.end_time.value|default_if_none:'' }}" required>
+                </div>
 
-             <!-- Cost Court -->
-            <div class="mb-3">
-                <label for="cost_court" class="form-label"><strong>Cost Court</strong></label>
-                <input type="number" class="form-control" id="cost_court" name="cost_court" 
-                       value="{{ court.cost_court }}" required>
-            </div>
+                <div class="mb-3">
+                    <label for="type_court" class="form-label"><strong>Type Court</strong></label>
+                    <select class="form-control" id="type_court" name="type_court" required>
+                        <option value="Indoor" {% if form.type_court.value == "Indoor" %}selected{% endif %}>Indoor</option>
+                        <option value="Outdoor" {% if form.type_court.value == "Outdoor" %}selected{% endif %}>Outdoor</option>
+                    </select>
+                </div>
 
-             <!-- Type Court -->
-            <div class="mb-3">
-                <label for="type_court" class="form-label"><strong>Type Court</strong></label>
-                <select class="form-control" id="type_court" name="type_court" required>
-                    <option value="Indoor" {% if court.type_court == 'Indoor' %}selected{% endif %}>Indoor</option>
-                    <option value="Outdoor" {% if court.type_court == 'Outdoor' %}selected{% endif %}>Outdoor</option>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label for="cost_court" class="form-label"><strong>Cost Court (VND)</strong></label>
+                    <input type="number" class="form-control" id="cost_court" name="cost_court" value="{{ form.cost_court.value }}" required>
+                </div>
 
-             <!-- Status -->
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select class="form-select" id="status" name="status" required>
-                    <option value="Available">Available</option>
-                    <option value="Maintenance">Maintenance</option>
-                    <option value="Closed">Closed</option>
-                </select>
-            </div>
-            
-             <!-- Location -->
-            <div class="mb-3">
-                <label for="location" class="form-label"><strong>Location</strong></label>
-                <input type="text" class="form-control" id="location" name="location" 
-                       value="{{ court.location }}" required>
-            </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Save </button>
-                <a href="{% url 'Courts' %}" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label for="status" class="form-label"><strong>Status</strong></label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="Available" {% if form.status.value == "Available" %}selected{% endif %}>Available</option>
+                        <option value="Maintenance" {% if form.status.value == "Maintenance" %}selected{% endif %}>Maintenance</option>
+                        <option value="Closed" {% if form.status.value == "Closed" %}selected{% endif %}>Closed</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label"><strong>Location</strong></label>
+                    <input type="text" class="form-control" id="location" name="location" value="{{ form.location.value }}" required>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-primary px-4">Save</button>
+                    <a href="{% url 'Courts' %}" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
-{%block footer%}
-    {% include 'footer.html' %}
-{%endblock%}

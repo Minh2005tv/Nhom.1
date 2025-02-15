@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from D_San_Mng.models import Court, Payment, Booking
-from .forms import CourtNewForm, PaymentNewForm, BookingNewForm
+from .forms import CourtNewForm, CourtEditForm, PaymentNewForm, BookingNewForm
 
 # Home view
 def home(request):
@@ -72,6 +72,14 @@ def PaymentNew(request):
 
 
 # List all Courts
+def Court_KH(request, id=None): 
+    courts = Court.objects.all()  # Fixed variable naming
+    template = loader.get_template('home/Court-KH.html')
+    context = {
+        'courts': courts,  # Updated context key
+    }
+    return HttpResponse(template.render(context, request))
+
 def Courts(request):
     courts = Court.objects.all()  # Fixed variable naming
     template = loader.get_template('home/Courts.html')
@@ -80,24 +88,26 @@ def Courts(request):
     }
     return HttpResponse(template.render(context, request))
 
-def Court_CTM(request):
-    courtctm = Court_CTM.objects.all()  # Fixed variable naming
-    template = loader.get_template('home/Court-CTM.html')
-    context = {
-        'courtctm': courtctm,  # Updated context key
-    }
-    return HttpResponse(template.render(context, request))
-
-
 #  Edit Court
-def edit_Court(request, id=None): 
-    if id:
-        court = get_object_or_404(Court, id=id) 
-        context = {'court': court} 
-    else: 
-        context = {'message': 'No Court selected for editing.'} 
-        template = loader.get_template('home/Court-edit.html') 
-        return HttpResponse(template.render(context, request))
+def edit_Court(request, id):  
+    court = get_object_or_404(Court, id_court=id)  # Lấy sân cần chỉnh sửa
+
+    if request.method == "POST":
+        form = CourtEditForm(request.POST, court=court)
+        if form.is_valid():
+            court.name_court = form.cleaned_data['name_court']
+            court.location = form.cleaned_data['location']
+            court.start_time = form.cleaned_data['start_time']
+            court.end_time = form.cleaned_data['end_time']
+            court.status = form.cleaned_data['status']
+            court.type_court = form.cleaned_data['type_court']
+            court.cost_court = form.cleaned_data['cost_court']
+            court.save()
+            return redirect('Courts')  # Chuyển về danh sách sân
+    else:
+        form = CourtEditForm(court=court)  # Đổ dữ liệu cũ vào form
+
+    return render(request, 'home/Court-edit.html', {'form': form, 'court': court})
 
 
 # Thêm sân cầu lông mới
@@ -131,10 +141,16 @@ def CourtNew(request):
     return render(request, 'home/Court-new.html', {'form': form})
 
 def delete_court(request, court_id):
-    if request.method == "DELETE":
-        court = get_object_or_404(Court, id=court_id)
-        court.delete()
-        return JsonResponse({"success": True})
+    print(f"Nhận yêu cầu xóa sân ID: {court_id}")  # Debug
+    if request.method == "POST":  # Đổi từ DELETE thành POST
+        try:
+            court = get_object_or_404(Court, id_court=court_id)  # Sửa id → id_court
+            court.delete()
+            print(f"Đã xóa sân {court_id}")  # Debug
+            return JsonResponse({"success": True})
+        except Exception as e:
+            print(f"Lỗi khi xóa sân: {e}")  # Debug
+            return JsonResponse({"success": False, "error": str(e)}, status=500)
     return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
 
 
