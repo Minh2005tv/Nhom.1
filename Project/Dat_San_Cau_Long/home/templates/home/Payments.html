@@ -99,40 +99,35 @@
               </div>
               <div class="col-lg-5 card-body p-md-8">
                 <h4 class="mb-2">Chi Tiết Hóa Đơn</h4>
-                <p class="mb-8">
-                </p>
                 <div class="bg-lighter p-6 rounded">
-                  <div class="d-flex align-items-center mb-4">
-                    <h1 class="text-heading mb-0">$59.99</h1>
-                  </div>
+                    <div class="d-flex align-items-center mb-4">
+                        <h1 class="text-heading mb-0">{{ cost_court }} VND</h1>
+                    </div>
                 </div>
                 <div class="mt-5">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <p class="mb-0">Tổng Tạm Tính</p>
-                    <h6 class="mb-0">$85.99</h6>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center mt-2">
-                    <p class="mb-0">Thuế</p>
-                    <h6 class="mb-0">$4.99</h6>
-                  </div>
-                  <hr>
-                  <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
-                    <p class="mb-0">Tổng</p>
-                    <h6 class="mb-0">$90.98</h6>
-                  </div>
-                  <div class="d-grid mt-5">
-                    <button class="btn btn-success">
-                      <span class="me-2">Thanh toán</span>
-                      <i class="icon-base bx bx-right-arrow-alt scaleX-n1-rtl"></i>
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="mb-0"><strong>Tên Sân:</strong> {{ name_court }}</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <p class="mb-0"><strong>Loại Sân:</strong> {{ type_court }}</p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <p class="mb-0"><strong>Thời Gian:</strong> {{ start_time }} - {{ end_time }}</p>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
+                        <p class="mb-0">Tổng</p>
+                        <h6 class="mb-0">{{ cost_court }} VND</h6>
+                    </div>
+                    <div class="d-grid mt-5">
+                        <button class="btn btn-success">
+                            <span class="me-2">Thanh toán</span>
+                            <i class="icon-base bx bx-right-arrow-alt scaleX-n1-rtl"></i>
+                        </button>
+                    </div>
                 </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            </div>
+            
   <script>
     document.querySelectorAll('input[name="customRadioTemp"]').forEach(input => {
       input.addEventListener('change', function() {

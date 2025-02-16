@@ -1,3 +1,8 @@
+# TH1: Nhap day du thong tin, dung thong tin -> thanh toan thanh cong
+# TH2: Nhap Day du thong tin nhung sai -> thanh toan that bai
+# TH3: Nhap thieu, khi bam vao nut thanh toan -> thanh toan that bai va hien thi cac from nhap bi thieu
+# TH4: Khong nhap gi ca -> thanh toan that bai va hien thi cac from nhap bi thieu
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.alert import Alert
