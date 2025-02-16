@@ -1,8 +1,3 @@
-# 4 TH
-# dung tk dung mk ---> dang nhap thanh cong
-# dung tk sai mk ---> f
-# khong nhap gi ca ---> f
-# sai tk dung mk ---> f
 import time
 import unittest
 from selenium import webdriver
