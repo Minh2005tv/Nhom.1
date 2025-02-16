@@ -77,12 +77,12 @@ WSGI_APPLICATION = 'Dat_San_Cau_Long.wsgi.application'
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.mysql',
+		'ENGINE': 'django.db.backends.postgresql',
 		'NAME': 'DjangoDB',
-		'USER': 'root',
-		'PASSWORD': 'root',
-		'HOST':'127.0.0.1',
-		'PORT':'3306',
+		'USER': 'myuser',
+		'PASSWORD': 'Aa123456',
+		'HOST':'db',
+		'PORT':5432,
 	}
 }
 

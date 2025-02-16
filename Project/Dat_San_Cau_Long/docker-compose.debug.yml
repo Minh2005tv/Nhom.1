@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  nhom:
+    image: nhom
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 Project\Dat_San_Cau_Long\manage.py runserver 0.0.0.0:9000 --nothreading --noreload"]
+    ports:
+      - 9000:9000
+      - 5678:5678
