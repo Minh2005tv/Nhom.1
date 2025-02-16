@@ -1,68 +1,81 @@
 {% extends "master.html" %}
-{% load static %}
-<img src="{% static 'home/image/san_cau_long.jpg' %}" alt="Sân cầu lông" style="width:300px; height:auto;">
-
-
-
-{% block Navbar %}
-  {% include 'Navbar.html' %}
-{% endblock %}
-
-{% block left-menu %}
-  {% include 'left-menu.html' %}
-{% endblock %}
-
 
 {% block content %}
-<div class="flex justify-center items-center min-h-screen bg-gray-100 p-4 relative">
-    <img src="https://your-image-host.com/image.jpg" 
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
+    <div class="card shadow p-4" style="margin-left: -250px; width: 800%; max-width: 800px; border-radius: 50px;">
+        <h2 class="text-center mb-4" style="font-size: 1.8em; font-weight: bold;">Booking Court</h2>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="name_court" class="form-label"><strong>Name Court</strong></label>
+                    <input type="text" class="form-control" id="name_court" name="name_court" value="{{ form.name_court.value }}" required>
+                </div>
 
-    alt="Sân cầu lông" 
-    class="absolute top-0 left-0 w-full h-full object-cover opacity-20 blur-sm">
+                <div class="mb-3">
+                    <label for="start_time" class="form-label"><strong>Start Time</strong></label>
+                    <input type="time" class="form-control" id="start_time" name="start_time" value="{{ form.start_time.value|default_if_none:'' }}" required>
+                </div>
 
-    <div class="relative z-10 w-full max-w-lg bg-white shadow-2xl rounded-2xl p-8">
-        <h2 class="text-3xl font-bold text-center text-blue-700">Đặt Sân Cầu Lông</h2>
-        <p class="text-center text-gray-600 mt-2">Nhanh chóng và tiện lợi!</p>
+                <div class="mb-3">
+                    <label for="end_time" class="form-label"><strong>End Time</strong></label>
+                    <input type="time" class="form-control" id="end_time" name="end_time" value="{{ form.end_time.value|default_if_none:'' }}" required>
+                </div>
 
-        <form method="POST" action="{% url 'Payments' %}" class="mt-6">
+                <div class="mb-3">
+                    <label for="type_court" class="form-label"><strong>Type Court</strong></label>
+                    <select class="form-control" id="type_court" name="type_court" required>
+                        <option value="Indoor" {% if form.type_court.value == "Indoor" %}selected{% endif %}>Indoor</option>
+                        <option value="Outdoor" {% if form.type_court.value == "Outdoor" %}selected{% endif %}>Outdoor</option>
+                    </select>
+                </div>
 
-            {% csrf_token %}
-            
-            <label class="block font-medium">Chọn Sân:</label>
-            <select name="court" class="border-gray-300 shadow-sm w-full p-2 rounded">
-                <option value="Sân 1">Sân 1 - 100,000 VND/h</option>
-                <option value="Sân 2">Sân 2 - 120,000 VND/h</option>
-                <option value="Sân 3">Sân 3 - 150,000 VND/h</option>
-            </select>
-            
-            <label class="block font-medium mt-4">Chọn Ngày:</label>
-            <input type="date" name="date" class="border-gray-300 shadow-sm w-full p-2 rounded" required />
-            
-            <label class="block font-medium mt-4">Chọn Giờ:</label>
-            <input type="time" name="time" class="border-gray-300 shadow-sm w-full p-2 rounded" required />
-            
-            <label class="block font-medium mt-4">Phương Thức Thanh Toán:</label>
-            <select name="payment" class="border-gray-300 shadow-sm w-full p-2 rounded">
-                <option value="MoMo">MoMo</option>
-                <option value="ZaloPay">ZaloPay</option>
-                <option value="VNPay">VNPay</option>
-            </select>
-            
-            <button type="submit" class="w-full mt-6 bg-red-500 text-red-500 shadow-md hover:bg-red-400 py-2 px-4 rounded-lg font-bold">
-                Xác Nhận & Thanh Toán
-            </button>
-        </form>
+                <div class="mb-3">
+                    <label for="cost_court" class="form-label"><strong>Cost Court (VND)</strong></label>
+                    <input type="number" class="form-control" id="cost_court" name="cost_court" value="{{ form.cost_court.value }}" required>
+                </div>
 
-        <div class="mt-6 text-center text-gray-700">
-            <div class="flex items-center justify-center gap-2">
-                <span class="text-red-500">📍</span>
-                <span>123 Đường ABC, Quận 1, TP.HCM</span>
+                <div class="mb-3">
+                    <label for="status" class="form-label"><strong>Status</strong></label>
+                    <select class="form-select" id="status" name="status" required>
+                        <option value="Available" {% if form.status.value == "Available" %}selected{% endif %}>Available</option>
+                        <option value="Maintenance" {% if form.status.value == "Maintenance" %}selected{% endif %}>Maintenance</option>
+                        <option value="Closed" {% if form.status.value == "Closed" %}selected{% endif %}>Closed</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label"><strong>Location</strong></label>
+                    <input type="text" class="form-control" id="location" name="location" value="{{ form.location.value }}" required>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <button type="button" class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#confirmBookingModal">Book Now</button>
+                    <a href="{% url 'Courts' %}" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Xác Nhận Thanh Toán -->
+<div class="modal fade" id="confirmBookingModal" tabindex="-1" aria-labelledby="confirmBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmBookingModalLabel">Xác nhận thanh toán</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="flex items-center justify-center gap-2 mt-2">
-                <span class="text-green-500">📞</span>
-                <span>0909 123 456</span>
+            <div class="modal-body">
+                Bạn có chắc chắn muốn đặt sân này không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-success">Xác nhận</button>
             </div>
         </div>
     </div>
 </div>
+
 {% endblock %}

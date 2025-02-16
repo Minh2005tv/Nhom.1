@@ -11,11 +11,17 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Định nghĩa BASE_DIR trước khi dùng
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -26,7 +32,6 @@ SECRET_KEY = 'django-insecure-g^a*11hq=hp^@toz!b1f@)%ga%llp)-tqa26igh$+km@0t3thq
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
