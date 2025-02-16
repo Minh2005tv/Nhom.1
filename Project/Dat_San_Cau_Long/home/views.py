@@ -36,6 +36,16 @@ def customer_login(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+
+
+        # tai khoan co dinh
+        if username == "abc" and password == "123456":
+            user, created = User.objects.get_or_create(username="abc", defaults={"is_active": True})
+            login(request, user)
+            messages.success(request, "Đăng nhập thành công với tài khoản cố định!")
+            return redirect("home")
+
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
