@@ -29,7 +29,7 @@ urlpatterns = [
 
     #URl Booking
     path('', views.home, name = "home"),
-    path('Bookings', views.Bookings, name='Bookings'),
+    path('Bookings/', views.Bookings, name='Bookings'),
     path('edit_Bookings/<int:id>/', views.edit_Bookings, name='edit_Bookings'),
     path('Booking-new', views.BookingNew, name='Booking-new'),
     path('submit-booking/', views.submit_booking, name='submit_booking'),
