@@ -1,5 +1,4 @@
 # khong nhap gi ca ---> f
-# sai tk dung mk ----> f 
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
