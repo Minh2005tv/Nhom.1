@@ -2,52 +2,40 @@
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
-    <div class="card shadow p-4" style="margin-left: -250px; width: 800%; max-width: 800px; border-radius: 50px;">
+    <div class="card shadow p-4" style="width: 100%; max-width: 800px; border-radius: 20px;">
         <h2 class="text-center mb-4" style="font-size: 1.8em; font-weight: bold;">Booking Court</h2>
         <div class="card-body">
             <form method="POST">
                 {% csrf_token %}
-                
+
                 <div class="mb-3">
                     <label for="name_court" class="form-label"><strong>Name Court</strong></label>
-                    <input type="text" class="form-control" id="name_court" name="name_court" value="{{ form.name_court.value }}" required>
+                    <input type="text" class="form-control" id="name_court" name="name_court" value="{{ request.GET.name_court }}" required readonly>
                 </div>
 
                 <div class="mb-3">
                     <label for="start_time" class="form-label"><strong>Start Time</strong></label>
-                    <input type="time" class="form-control" id="start_time" name="start_time" value="{{ form.start_time.value|default_if_none:'' }}" required>
+                    <input type="time" class="form-control" id="start_time" name="start_time" value="{{ request.GET.start_time }}">
                 </div>
 
                 <div class="mb-3">
                     <label for="end_time" class="form-label"><strong>End Time</strong></label>
-                    <input type="time" class="form-control" id="end_time" name="end_time" value="{{ form.end_time.value|default_if_none:'' }}" required>
+                    <input type="time" class="form-control" id="end_time" name="end_time" value="{{ request.GET.end_time }}">
                 </div>
 
                 <div class="mb-3">
                     <label for="type_court" class="form-label"><strong>Type Court</strong></label>
-                    <select class="form-control" id="type_court" name="type_court" required>
-                        <option value="Indoor" {% if form.type_court.value == "Indoor" %}selected{% endif %}>Indoor</option>
-                        <option value="Outdoor" {% if form.type_court.value == "Outdoor" %}selected{% endif %}>Outdoor</option>
-                    </select>
+                    <input type="text" class="form-control" id="type_court" name="type_court" value="{{ request.GET.type_court }}" required readonly>
                 </div>
 
                 <div class="mb-3">
                     <label for="cost_court" class="form-label"><strong>Cost Court (VND)</strong></label>
-                    <input type="number" class="form-control" id="cost_court" name="cost_court" value="{{ form.cost_court.value }}" required>
-                </div>
-
-                <div class="mb-3">
-                    <label for="status" class="form-label"><strong>Status</strong></label>
-                    <select class="form-select" id="status" name="status" required>
-                        <option value="Available" {% if form.status.value == "Available" %}selected{% endif %}>Available</option>
-                        <option value="Maintenance" {% if form.status.value == "Maintenance" %}selected{% endif %}>Maintenance</option>
-                        <option value="Closed" {% if form.status.value == "Closed" %}selected{% endif %}>Closed</option>
-                    </select>
+                    <input type="number" class="form-control" id="cost_court" name="cost_court" value="{{ request.GET.cost_court }}" required readonly>
                 </div>
 
                 <div class="mb-3">
                     <label for="location" class="form-label"><strong>Location</strong></label>
-                    <input type="text" class="form-control" id="location" name="location" value="{{ form.location.value }}" required>
+                    <input type="text" class="form-control" id="location" name="location" value="{{ request.GET.location }}" required readonly>
                 </div>
 
                 <div class="mb-3 text-center">
@@ -70,14 +58,11 @@
             <div class="modal-body">
                 Bạn có chắc chắn muốn đặt sân này không?
             </div>
-            <!-- Nút Xác nhận trong modal -->
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-    <a href="{% url 'Payments' %}" class="btn btn-success">Xác nhận</a>
-</div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <a href="{% url 'Payments' %}" class="btn btn-success">Xác nhận</a>
+            </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

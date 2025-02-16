@@ -218,24 +218,22 @@ def submit_booking(request):
     return render(request, "home/Booking/submit-booking.html", {"form": form})
 # Create a New Payment
 def BookingNew(request):
+    # Debug: Kiểm tra dữ liệu nhận từ URL
+    print("GET parameters:", request.GET)
+
     if request.method == "POST":
         form = BookingNewForm(request.POST)
         if form.is_valid():
-            # Create and save the Payment instance
-            Booking = Booking(
-                booking_id=form.cleaned_data['booking_id'],
-                start_time=form.cleaned_data['start_time'],
-                end_time=form.cleaned_data['end_time'],
-                booking_date=form.cleaned_data['booking_date'],
-                active=form.cleaned_data['active'],
-            )
-            Booking.save()
-            return HttpResponseRedirect("/Bookings")
+            form.save()
+            return HttpResponseRedirect("/Bookings")  # Điều hướng sau khi đặt sân
     else:
-        form = BookingNewForm()
+        form = BookingNewForm(initial={
+            'name_court': request.GET.get('name_court', ''),
+            'start_time': request.GET.get('start_time', ''),
+            'end_time': request.GET.get('end_time', ''),
+            'cost_court': request.GET.get('cost_court', ''),
+            'type_court': request.GET.get('type_court', ''),
+            'location': request.GET.get('location', ''),
+        })
 
-    template = loader.get_template('home/Booking/Booking-new.html')  # Check this path
-    context = {
-        'form': form,
-    }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'home/Booking/Booking-new.html', {'form': form})
