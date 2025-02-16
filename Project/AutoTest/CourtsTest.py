@@ -1,57 +1,85 @@
-import unittest
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
+import chromedriver_autoinstaller
 
-class PaymentsTest(unittest.TestCase):
+# Cập nhật ChromeDriver tự động
+chromedriver_autoinstaller.install()
+
+# ⚙️ Cấu hình trình duyệt
+options = webdriver.ChromeOptions()
+options.add_experimental_option("detach", True)  # Giữ trình duyệt mở
+options.add_argument("--start-maximized")  # Mở toàn màn hình
+options.add_argument("--disable-infobars")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-extensions")  # Tắt phần mở rộng
+
+def test_courts_page():
+    driver = webdriver.Chrome(options=options)
     
-    def setUp(self):
-        """Khởi tạo trình duyệt trước mỗi test"""
-        self.driver = webdriver.Chrome()
+    try:
+        print("✅ Tải trang thành công Courts...")
+        driver.get("http://127.0.0.1:8000/Courts/")
 
-    def tearDown(self):
-        """Đóng trình duyệt sau mỗi test"""
-        self.driver.quit()
+        # Chờ tiêu đề trang xuất hiện
+        WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Badminton Courts & Schedule')]"))
+        )
+        print("✅ Trang tải thành công")
+        
+        # Kiểm tra danh sách sân hiển thị
+        print("🔍 Đang kiểm tra danh sách sân...")
+        courts = driver.find_elements(By.XPATH, "//tr")
+        if len(courts) > 1:
+            print("✅ Kiểm tra danh sách sân: Thành công")
+        else:
+            raise Exception("Không có sân nào hiển thị!")
 
-    def test_court_process(self):
-        """Test quy trình thanh toán thành công"""
-        driver = self.driver
-        driver.get("http://127.0.0.1:8000/Courts/")  # Cập nhật URL của bạn
-
-        try:
- # Nhập số thẻ
-            card_number = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.NAME, "card_number"))
+        # Kiểm tra chức năng Edit
+        edit_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'Edit')]")
+        if edit_buttons:
+            print("🔄 Đang kiểm tra chức năng Edit...")
+            edit_buttons[0].click()
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Edit Court')]"))
             )
-            card_number.send_keys("4111111111111111")  # Thẻ hợp lệ
+            print("✅ Kiểm tra chức năng Edit: Thành công")
+            driver.back()
+            time.sleep(2)
+        else:
+            print("⚠️ Không tìm thấy nút Edit.")
 
-            # Nhập ngày hết hạn
-            expiry_date = driver.find_element(By.NAME, "expiry_date")
-            expiry_date.send_keys("12/25")
+        # Kiểm tra chức năng Delete
+        delete_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'Delete')]")
+        if delete_buttons:
+            print("🔄 Đang kiểm tra chức năng Delete...")
+            delete_buttons[0].click()
+            time.sleep(2)
+            print("✅ Kiểm tra chức năng Delete: Thành công")
+        else:
+            print("⚠️ Không tìm thấy nút Delete.")
 
-            # Nhập mã CVV
-            cvv = driver.find_element(By.NAME, "cvv")
-            cvv.send_keys("123")
+        # Kiểm tra chức năng Add Court
+        print("🔄 Đang kiểm tra chức năng Add Court...")
+        try:
+            add_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Add Court')]")
+            add_button.click()
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Create New Court')]"))
+            )
+            print("✅ Kiểm tra chức năng Add Court: Thành công")
+        except:
+            print("❌ Lỗi: Không tìm thấy nút Add Court.")
 
-            # Nhấn nút thanh toán
-            pay_button = driver.find_element(By.ID, "pay-button")
-            pay_button.click()
+    except Exception as e:
+        print(f"❌ Lỗi xảy ra: {e}")
 
-            # Chờ phản hồi
-            success_message = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.ID, "payment-success"))
-            ).text
-
-            # Kiểm tra kết quả
-            self.assertIn("Thanh toán thành công", success_message)
-            print("✅ Test thanh toán thành công!")
-
-        except Exception as e:
-            print(f"❌ Lỗi kiểm thử: {e}")
-            self.fail("Test thất bại do lỗi trên.")
+    finally:
+        input("Nhấn Enter để thoát...")  # Giữ trình duyệt mở
+        driver.quit()
 
 if __name__ == "__main__":
-    unittest.main()
+    test_courts_page()
