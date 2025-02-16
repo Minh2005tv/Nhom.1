@@ -15,10 +15,10 @@ urlpatterns = [
 
     # URL Payment
     path('Payments/', views.Payments, name='Payments'),
-    path('Payments/edit/<int:id>/', views.edit_Payment, name='edit_Payment'),
+    
     
 
-    path('Payments/new/', views.PaymentNew, name='Payment-new'),
+   
 
     # URL Court
     path('Courts/', views.Courts, name='Courts'), 
