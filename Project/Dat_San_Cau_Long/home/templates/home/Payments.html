@@ -4,9 +4,6 @@
   {% include 'Navbar.html' %}
 {% endblock %}
 
-{% block left-menu %}
-  {% include 'left-menu.html' %}
-{% endblock %}
 
 {% block content %}
   <div class="container">
@@ -147,4 +144,59 @@
       });
     });
   </script>
+  <script>
+    document.querySelector('.btn-success').addEventListener('click', function(event) {
+      event.preventDefault(); // Ngăn form submit mặc định
+  
+      // Lấy phương thức thanh toán
+      let paymentMethod = document.querySelector('input[name="customRadioTemp"]:checked')?.value;
+  
+      // Lấy dữ liệu từ form
+      let email = document.getElementById('billings-email')?.value.trim();
+      let password = document.getElementById('billings-password')?.value.trim();
+      let country = document.getElementById('billings-country')?.value.trim();
+      let phone = document.getElementById('billings-zip')?.value.trim();
+      let cardNumber = document.getElementById('billings-card-num')?.value.trim();
+      let cardName = document.getElementById('billings-card-name')?.value.trim();
+      let expiryDate = document.getElementById('billings-card-date')?.value.trim();
+      let cvv = document.getElementById('billings-card-cvv')?.value.trim();
+  
+      let errorMessage = "";
+  
+      // Kiểm tra thông tin bắt buộc
+      if (!email) errorMessage += "- Vui lòng nhập email.\n";
+      if (!password) errorMessage += "- Vui lòng nhập mật khẩu.\n";
+      if (!country) errorMessage += "- Vui lòng nhập quê quán.\n";
+      if (!phone) errorMessage += "- Vui lòng nhập số điện thoại.\n";
+  
+      // Nếu chọn thanh toán bằng thẻ, kiểm tra thông tin thẻ
+      if (paymentMethod === "credit-card" || paymentMethod === "paypal") {
+          if (!cardNumber) errorMessage += "- Vui lòng nhập số tài khoản.\n";
+          if (!cardName) errorMessage += "- Vui lòng nhập họ và tên chủ thẻ.\n";
+          if (!expiryDate) errorMessage += "- Vui lòng nhập ngày hết hạn.\n";
+          if (!cvv) errorMessage += "- Vui lòng nhập CVV.\n";
+      }
+  
+      // Nếu có lỗi, hiển thị thông báo và dừng xử lý
+      if (errorMessage) {
+          alert("Thanh toán thất bại! \n" + errorMessage);
+          return;
+      }
+  
+      // Giả lập kiểm tra thanh toán (thực tế nên gọi API)
+      let paymentSuccess = Math.random() > 0.5; // Xác suất thành công 50%
+  
+      if (paymentSuccess) {
+          alert('Thanh toán thành công! Quay về trang chủ.');
+          window.location.href = '/';
+      } else {
+          alert('Thanh toán thất bại do lỗi kỹ thuật! Vui lòng thử lại.');
+          window.location.href = '/Payments';
+      }
+  });
+  
+  
+</script>
+
+  
 {% endblock %}

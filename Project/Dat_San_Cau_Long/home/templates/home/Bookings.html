@@ -24,7 +24,8 @@
         <h2 class="text-3xl font-bold text-center text-blue-700">Đặt Sân Cầu Lông</h2>
         <p class="text-center text-gray-600 mt-2">Nhanh chóng và tiện lợi!</p>
 
-        <form method="POST" action="{% url 'Bookings' %}" class="mt-6">
+        <form method="POST" action="{% url 'Payments' %}" class="mt-6">
+
             {% csrf_token %}
             
             <label class="block font-medium">Chọn Sân:</label>

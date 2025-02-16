@@ -6,7 +6,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from D_San_Mng.models import Court, Payment, Booking
 from .forms import CourtNewForm, CourtEditForm, PaymentNewForm, BookingNewForm
-
+import random
+from .models import Payment
 # Home view
 def home(request):
     return render(request, 'home/index.html')
@@ -55,7 +56,29 @@ def Payments(request):
 # Edit a Payment
 def edit_Payment(request, id):
     payment = get_object_or_404(Payment, id=id)
+
+    if request.method == "POST":
+        payment_method = request.POST.get("payment_method")
+
+        if payment_method == "cash":
+            success = random.random() > 0.5  # 50% tỷ lệ thanh toán thành công
+            payment.status = "Thành công" if success else "Thất bại"
+        else:
+            success = random.random() > 0.2  # 80% tỷ lệ thành công
+            payment.status = "Đang xử lý" if success else "Thất bại"
+
+        payment.save()
+
+        if payment.status == "Thành công":
+            return JsonResponse({"status": "success", "message": "Thanh toán thành công!"})
+        elif payment.status == "Đang xử lý":
+            return JsonResponse({"status": "pending", "message": "Đang xử lý thanh toán..."})
+        else:
+            return JsonResponse({"status": "failed", "message": "Thanh toán thất bại!"})
+
     return render(request, 'home/Payment-edit.html', {'payment': payment})
+
+
 
 
 # Create a New Payment
