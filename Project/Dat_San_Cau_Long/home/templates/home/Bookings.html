@@ -60,11 +60,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-<<<<<<< HEAD
-                <a href="{% url 'Payments' %}" class="btn btn-success">Xác nhận</a>
-=======
-                <button type="submit" class="btn btn-success">Xác nhận</button>
->>>>>>> 8489ba4f31e38b75a57c78d44e62ef0b8642e769
+
+                <a href="{% url 'Payments' %}?cost_court={{ request.GET.cost_court }}&name_court={{ request.GET.name_court }}&type_court={{ request.GET.type_court }}&start_time={{ request.GET.start_time }}&end_time={{ request.GET.end_time }}&location={{ request.GET.location }}" class="btn btn-success">Xác nhận</a>
+
             </div>
         </div>
     </div>

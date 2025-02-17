@@ -101,18 +101,18 @@
     <h4 class="mb-2">Chi Tiết Hóa Đơn</h4>
     <div class="bg-lighter p-6 rounded">
         <div class="d-flex align-items-center mb-4">
-            <h1 class="text-heading mb-0">{{ cost_court }} VND</h1>
+            <h1 class="text-heading mb-0">{{ request.GET.cost_court }} VND</h1>
         </div>
     </div>
     <div class="mt-5">
         <div class="d-flex justify-content-between align-items-center">
-            <p class="mb-0"><strong>Tên Sân:</strong> {{ name_court }}</p>
+            <p class="mb-0"><strong>Tên Sân:</strong> {{ request.GET.name_court }}</p>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-2">
-            <p class="mb-0"><strong>Loại Sân:</strong> {{ type_court }}</p>
+            <p class="mb-0"><strong>Loại Sân:</strong> {{ request.GET.type_court }}</p>
         </div>
         <div class="d-flex justify-content-between align-items-center mt-2">
-            <p class="mb-0"><strong>Thời Gian:</strong> {{ start_time }} - {{ end_time }}</p>
+          <p class="mb-0"><strong>Thời Gian:</strong> {{ request.GET.start_time }} - {{ request.GET.end_time }}</p>
         </div>
         <hr>
         <div class="d-flex justify-content-between align-items-center mt-4 pb-1">
