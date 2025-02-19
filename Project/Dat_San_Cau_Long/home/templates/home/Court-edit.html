@@ -1,4 +1,4 @@
-{% extends "master.html" %}
+{% extends "master.html" %} 
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
@@ -50,6 +50,25 @@
                     <input type="text" class="form-control" id="location" name="location" value="{{ form.location.value }}" required>
                 </div>
 
+                <div class="mb-3">
+                    <label for="schedule_type" class="form-label"><strong>Schedule Type</strong></label>
+                    <select class="form-select" id="schedule_type" name="schedule_type" required>
+                        <option value="Fixed" {% if form.schedule_type.value == "Fixed" %}selected{% endif %}>Lịch cố định</option>
+                        <option value="Single" {% if form.schedule_type.value == "Single" %}selected{% endif %}>Lịch ngày</option>
+                        <option value="Flexible" {% if form.schedule_type.value == "Flexible" %}selected{% endif %}>Lịch linh hoạt</option>
+                    </select>
+                </div>
+
+                <div class="mb-3" id="min_duration_container">
+                    <label for="min_duration_months" class="form-label"><strong>Min Duration (Months)</strong></label>
+                    <input type="number" class="form-control" id="min_duration_months" name="min_duration_months" value="{{ form.min_duration_months.value }}" required>
+                </div>
+
+                <div class="mb-3" id="total_hours_container">
+                    <label for="total_hours_per_month" class="form-label"><strong>Total Hours Per Month</strong></label>
+                    <input type="number" class="form-control" id="total_hours_per_month" name="total_hours_per_month" value="{{ form.total_hours_per_month.value }}">
+                </div>
+
                 <div class="mb-3 text-center">
                     <button type="submit" class="btn btn-primary px-4">Save</button>
                     <a href="{% url 'Courts' %}" class="btn btn-secondary px-4">Cancel</a>
@@ -58,4 +77,30 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const scheduleType = document.getElementById("schedule_type");
+    const minDurationContainer = document.getElementById("min_duration_container");
+    const totalHoursContainer = document.getElementById("total_hours_container");
+
+    function updateVisibility() {
+        const value = scheduleType.value;
+
+        if (value === "Flexible") {
+            minDurationContainer.style.display = "none";
+            totalHoursContainer.style.display = "";
+        } else if (value === "Fixed") {
+            minDurationContainer.style.display = "";
+            totalHoursContainer.style.display = "none";
+        } else if (value === "Single") {
+            minDurationContainer.style.display = "none";
+            totalHoursContainer.style.display = "none";
+        }
+    }
+
+    updateVisibility();
+    scheduleType.addEventListener("change", updateVisibility);
+});
+</script>
 {% endblock %}

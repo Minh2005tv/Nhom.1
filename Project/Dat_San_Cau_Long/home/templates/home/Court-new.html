@@ -6,7 +6,6 @@
     <h2 class="card-header text-start" style="font-size: 2em; font-weight: bold; color: black;">Set Up a New Court</h2>
     <div class="card shadow p-4">
 
-        <!-- Hiển thị lỗi nếu form có lỗi -->
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">{{ message }}</div>
@@ -24,7 +23,6 @@
             </div>
         {% endif %}
 
-        <!-- Form thêm mới sân cầu lông -->
         <form method="post" action="{% url 'Court-new' %}">
             {% csrf_token %}
             
@@ -66,18 +64,53 @@
             </div>
 
             <div class="mb-3">
-<label for="location" class="form-label"><strong>Location</strong></label>
+                <label for="location" class="form-label">Location</label>
                 <input type="text" class="form-control" id="location" name="location" required>
             </div> 
+
+            <div class="mb-3">
+                <label for="schedule_type" class="form-label">Schedule Type</label>
+                <select class="form-select" id="schedule_type" name="schedule_type" required>
+                    <option value="Fixed">Lịch cố định</option>
+                    <option value="Single">Lịch ngày</option>
+                    <option value="Flexible">Lịch linh hoạt</option>
+                </select>
+            </div>
+
+            <div class="mb-3" id="min_duration_wrapper">
+                <label for="min_duration_months" class="form-label">Minimum Duration (Months)</label>
+                <input type="number" class="form-control" id="min_duration_months" name="min_duration_months" value="1" required>
+            </div>
+
+            <div class="mb-3" id="total_hours_wrapper" style="display: none;">
+                <label for="total_hours_per_month" class="form-label">Total Hours Per Month</label>
+                <input type="number" class="form-control" id="total_hours_per_month" name="total_hours_per_month">
+            </div>
 
             <button type="submit" class="btn btn-primary">Save</button>
             <a href="{% url 'Courts' %}" class="btn btn-secondary">Cancel</a>
         </form>
 
         <script>
-            document.querySelector("form").addEventListener("submit", function(event) {
-                console.log("Form đã submit!");
+            document.getElementById("schedule_type").addEventListener("change", function() {
+                var selected = this.value;
+                var minDurationWrapper = document.getElementById("min_duration_wrapper");
+                var totalHoursWrapper = document.getElementById("total_hours_wrapper");
+
+                if (selected === "Fixed") {
+                    minDurationWrapper.style.display = "block";
+                    totalHoursWrapper.style.display = "none";
+                } else if (selected === "Flexible") {
+                    minDurationWrapper.style.display = "none";
+                    totalHoursWrapper.style.display = "block";
+                } else { // Single
+                    minDurationWrapper.style.display = "none";
+                    totalHoursWrapper.style.display = "none";
+                }
             });
+
+            // Ensure correct visibility on page load
+            document.getElementById("schedule_type").dispatchEvent(new Event("change"));
         </script>
 
     </div>

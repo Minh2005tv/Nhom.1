@@ -11,7 +11,9 @@ class CustomerAdmin(admin.ModelAdmin):
   list_display = ("name", "email", "phone",)
 
 class CourtAdmin(admin.ModelAdmin):
-  list_display = ("id_court", "name_court", "cost_court", "start_time", "end_time",)
+    list_display = ("id_court", "name_court", "cost_court", "start_time", "end_time", "schedule_type", "status")
+    list_filter = ("schedule_type", "status", "type_court")
+    search_fields = ("name_court", "location")
 
 class BookingAdmin(admin.ModelAdmin):
   list_display = ("start_time", "end_time", "booking_date",)

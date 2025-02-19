@@ -13,13 +13,17 @@
     <table class="table w-100">
       <thead class="table-dark">
         <tr>
-          <th style="width: 20%;"><strong>COURT NAME</strong></th>
-          <th style="width: 15%;"><strong>START TIME</strong></th>
-          <th style="width: 15%;"><strong>END TIME</strong></th>
-          <th style="width: 15%;"><strong>COST COURT</strong></th>
-          <th style="width: 15%;"><strong>TYPE COURT</strong></th>
-          <th style="width: 20%;"><strong>LOCATION</strong></th>
-          <th style="width: 10%;"><strong>ACTION</strong></th>
+          <th><strong>COURT NAME</strong></th>
+          <th><strong>START TIME</strong></th>
+          <th><strong>END TIME</strong></th>
+          <th><strong>COST COURT</strong></th>
+          <th><strong>TYPE COURT</strong></th>
+          <th><strong>LOCATION</strong></th>
+          <th><strong>SCHEDULE TYPE</strong></th>
+          <th><strong>STATUS</strong></th>
+          <th><strong>MIN DURATION (MONTHS)</strong></th>
+          <th><strong>TOTAL HOURS (MONTHLY)</strong></th>
+          <th><strong>ACTION</strong></th>
         </tr>
       </thead>
       <tbody class="table-border-bottom-0">
@@ -34,6 +38,10 @@
           <td>{{ item.cost_court }}</td>
           <td>{{ item.type_court }}</td>
           <td><span class="badge bg-label-primary me-1">{{ item.location }}</span></td>
+          <td>{{ item.schedule_type }}</td>
+          <td><span class="badge bg-label-info">{{ item.status }}</span></td>
+          <td>{{ item.min_duration_months }}</td>
+          <td>{{ item.total_hours_per_month|default:"N/A" }}</td>
           <td>
             <a href="{% url 'Bookings' %}?name_court={{ item.name_court }}&start_time={{ item.start_time|slice:':5' }}&end_time={{ item.end_time|slice:':5' }}&cost_court={{ item.cost_court }}&type_court={{ item.type_court }}&location={{ item.location }}" class="btn btn-success">Book Now</a>
           </td>

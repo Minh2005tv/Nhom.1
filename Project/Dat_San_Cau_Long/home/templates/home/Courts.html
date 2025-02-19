@@ -13,27 +13,32 @@
     <table class="table w-100">
       <thead class="table-dark">
         <tr>
-          <th style="width: 20%;"><strong>COURT NAME</strong></th>
-          <th style="width: 15%;"><strong>START TIME</strong></th>
-          <th style="width: 15%;"><strong>END TIME</strong></th>
-          <th style="width: 15%;"><strong>COST COURT</strong></th>
-          <th style="width: 15%;"><strong>TYPE COURT</strong></th>
-          <th style="width: 20%;"><strong>LOCATION</strong></th>
-          <th style="width: 5%;"></th>
+          <th><strong>COURT NAME</strong></th>
+          <th><strong>START TIME</strong></th>
+          <th><strong>END TIME</strong></th>
+          <th><strong>COST COURT</strong></th>
+          <th><strong>TYPE COURT</strong></th>
+          <th><strong>LOCATION</strong></th>
+          <th><strong>STATUS</strong></th>
+          <th><strong>SCHEDULE TYPE</strong></th>
+          <th><strong>MIN DURATION (Months)</strong></th>
+          <th><strong>TOTAL HOURS (Monthly)</strong></th>
+          <th></th>
         </tr>
       </thead>
       <tbody class="table-border-bottom-0">
         {% for item in courts %}
         <tr class="table-default" id="court-row-{{ item.id_court }}">
-          <td>
-            <img src="https://cdn-icons-png.flaticon.com/128/505/505730.png" loading="lazy" alt="Badminton" title="Badminton" width="40" height="40">
-            <span>{{ item.name_court }}</span>
-          </td>
+          <td>{{ item.name_court }}</td>
           <td>{{ item.start_time }}</td>
           <td>{{ item.end_time }}</td>
           <td>{{ item.cost_court }}</td>
           <td>{{ item.type_court }}</td>
-          <td><span class="badge bg-label-primary me-1">{{ item.location }}</span></td>
+          <td>{{ item.location }}</td>
+          <td>{{ item.status }}</td>
+          <td>{{ item.schedule_type }}</td>
+          <td>{{ item.min_duration_months }}</td>
+          <td>{{ item.total_hours_per_month|default:"N/A" }}</td>
           <td>
             <div class="dropdown">
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -60,7 +65,7 @@
     {% csrf_token %}
 </form>
 
-<!-- JavaScript -->
+<!-- JavaScript for deleting courts -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".delete-btn").forEach(button => {
@@ -68,11 +73,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const courtId = this.getAttribute("data-id");
             const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
 
-            console.log("Deleting court ID:", courtId); // Debug
-
             if (confirm("Bạn có chắc chắn muốn xóa sân này không?")) {
                 fetch(`/Court-delete/${courtId}/`, {
-                    method: "POST", // Chuyển DELETE thành POST do CSRF
+                    method: "POST", 
                     headers: {
                         "X-CSRFToken": csrftoken,
                         "Content-Type": "application/json"
@@ -80,10 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Delete response:", data); // Debug
                     if (data.success) {
                         alert("Xóa thành công!");
-                        document.getElementById(`court-row-${courtId}`).remove(); // Xóa hàng khỏi bảng
+                        document.getElementById(`court-row-${courtId}`).remove();
                     } else {
                         alert("Lỗi khi xóa: " + (data.error || "Không xác định"));
                     }

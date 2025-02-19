@@ -105,25 +105,27 @@ def PaymentNew(request):
 
 
 # List all Courts
-def Court_KH(request, id=None): 
-    courts = Court.objects.all()  # Fixed variable naming
+def Court_KH(request, id=None):
+    courts = Court.objects.all()
     template = loader.get_template('home/Court-KH.html')
     context = {
-        'courts': courts,  # Updated context key
+        'courts': courts,
     }
     return HttpResponse(template.render(context, request))
+
 
 def Courts(request):
-    courts = Court.objects.all()  # Fixed variable naming
+    courts = Court.objects.all()
     template = loader.get_template('home/Courts.html')
     context = {
-        'courts': courts,  # Updated context key
+        'courts': courts,
     }
     return HttpResponse(template.render(context, request))
 
-#  Edit Court
-def edit_Court(request, id):  
-    court = get_object_or_404(Court, id_court=id)  # Lấy sân cần chỉnh sửa
+
+# Edit Court
+def edit_Court(request, id):
+    court = get_object_or_404(Court, id_court=id)
 
     if request.method == "POST":
         form = CourtEditForm(request.POST, court=court)
@@ -135,19 +137,22 @@ def edit_Court(request, id):
             court.status = form.cleaned_data['status']
             court.type_court = form.cleaned_data['type_court']
             court.cost_court = form.cleaned_data['cost_court']
+            court.schedule_type = form.cleaned_data['schedule_type']
+            court.min_duration_months = form.cleaned_data['min_duration_months']
+            court.total_hours_per_month = form.cleaned_data.get('total_hours_per_month', None)
             court.save()
-            return redirect('Courts')  # Chuyển về danh sách sân
+            return redirect('Courts')
     else:
-        form = CourtEditForm(court=court)  # Đổ dữ liệu cũ vào form
+        form = CourtEditForm(court=court)
 
     return render(request, 'home/Court-edit.html', {'form': form, 'court': court})
 
 
-# Thêm sân cầu lông mới
+# Add a new court
 def CourtNew(request):
     if request.method == "POST":
         form = CourtNewForm(request.POST)
-        print("Dữ liệu POST:", request.POST)  # Debug dữ liệu nhận được
+        print("Dữ liệu POST:", request.POST)
 
         if form.is_valid():
             # Lưu thủ công vào database vì Form không có .save()
@@ -158,31 +163,36 @@ def CourtNew(request):
                 end_time=form.cleaned_data["end_time"],
                 status=form.cleaned_data["status"],
                 type_court=form.cleaned_data["type_court"],
-                cost_court=form.cleaned_data["cost_court"]
+                cost_court=form.cleaned_data["cost_court"],
+                schedule_type=form.cleaned_data["schedule_type"],
+                min_duration_months=form.cleaned_data["min_duration_months"],
+                total_hours_per_month=form.cleaned_data.get("total_hours_per_month", None)
             )
             
             messages.success(request, "Sân cầu lông đã được thêm thành công!")
-            print("Saved successfully!")  # Debug xem đã lưu chưa
-            return redirect("Courts")  # Chuyển hướng về danh sách sân
+            print("Saved successfully!")
+            return redirect("Courts")
         else:
-            print("Lỗi form:", form.errors)  # Debug lỗi form
+            print("Lỗi form:", form.errors)
             messages.error(request, "Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin.")
     
     else:
-        form = CourtNewForm()  # Khởi tạo form khi vào trang
+        form = CourtNewForm()
 
     return render(request, 'home/Court-new.html', {'form': form})
 
+
+# Delete court
 def delete_court(request, court_id):
-    print(f"Nhận yêu cầu xóa sân ID: {court_id}")  # Debug
-    if request.method == "POST":  # Đổi từ DELETE thành POST
+    print(f"Nhận yêu cầu xóa sân ID: {court_id}")
+    if request.method == "POST":
         try:
-            court = get_object_or_404(Court, id_court=court_id)  # Sửa id → id_court
+            court = get_object_or_404(Court, id_court=court_id)
             court.delete()
-            print(f"Đã xóa sân {court_id}")  # Debug
+            print(f"Đã xóa sân {court_id}")
             return JsonResponse({"success": True})
         except Exception as e:
-            print(f"Lỗi khi xóa sân: {e}")  # Debug
+            print(f"Lỗi khi xóa sân: {e}")
             return JsonResponse({"success": False, "error": str(e)}, status=500)
     return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
 
