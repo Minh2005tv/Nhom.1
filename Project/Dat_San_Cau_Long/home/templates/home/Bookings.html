@@ -54,8 +54,8 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="button" class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#confirmBookingModal">Book Now</button>
-                            <a href="{% url 'Courts' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+                            <button type="button" class="btn btn-primary px-4" id="bookNowBtn">Book Now</button>
+                            <a href="/Court-KH/" class="btn btn-outline-secondary px-4">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -65,15 +65,15 @@
 </div>
 
 <script>
-document.getElementById("imageUpload").addEventListener("change", function(event) {
-    let file = event.target.files[0];
-    if (file) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById("courtImage").src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
+document.getElementById("bookNowBtn").addEventListener("click", function() {
+    let nameCourt = document.querySelector("input[name='name_court']").value;
+    let startTime = document.querySelector("input[name='start_time']").value;
+    let endTime = document.querySelector("input[name='end_time']").value;
+    let typeCourt = document.querySelector("input[name='type_court']").value;
+    let costCourt = document.querySelector("input[name='cost_court']").value;
+    let location = document.querySelector("input[name='location']").value;
+
+    window.location.href = `/Payments/?name_court=${encodeURIComponent(nameCourt)}&start_time=${encodeURIComponent(startTime)}&end_time=${encodeURIComponent(endTime)}&cost_court=${encodeURIComponent(costCourt)}&type_court=${encodeURIComponent(typeCourt)}&location=${encodeURIComponent(location)}`;
 });
 </script>
 
