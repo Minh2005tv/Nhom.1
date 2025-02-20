@@ -8,36 +8,43 @@
 <style>
   body {
     background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
   }
   .card {
     border: none;
     border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     padding: 15px;
+    background: #ffffff;
   }
   .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
   .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #343a40;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #212529;
   }
   .card-text {
-    font-size: 0.9rem;
-    color: #6c757d;
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.5;
+    margin-bottom: 8px;
   }
   .badge {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px;
   }
   .btn-primary {
     background-color: #3399ff;
     border: none;
     border-radius: 6px;
     transition: background 0.3s ease;
-    padding: 10px 0;
+    padding: 12px 0;
     font-size: 1rem;
+    font-weight: 600;
   }
   .btn-primary:hover {
     background-color: #007bff;
@@ -47,7 +54,7 @@
     background-color: #ffffff;
     border: 2px solid #d1d1d1;
     color: #343a40;
-    padding: 10px 25px;
+    padding: 12px 30px;
     font-weight: bold;
     transition: background 0.3s ease, box-shadow 0.3s ease;
     font-size: 1rem;
@@ -64,7 +71,7 @@
     {% for item in courts %}
     <div class="col-md-4 mb-4">
       <div class="card h-100 shadow-sm">
-        <img src="{{ item.image_url }}" class="card-img-top" alt="Court Image" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
+        <img src="https://th.bing.com/th/id/OIP.OuxzTsBem7fvlunxbRJrqAHaDh?rs=1&pid=ImgDetMain" alt="Court Image" style="border-top-left-radius: 12px; border-top-right-radius: 12px;">
         <div class="card-body">
           <h5 class="card-title">{{ item.name_court }}</h5>
           <p class="card-text">

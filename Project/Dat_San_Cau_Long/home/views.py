@@ -10,7 +10,8 @@ import random
 from .models import Payment
 # Home view
 def home(request):
-    return render(request, 'home/index.html')
+    courts = Court.objects.all()
+    return render(request, 'home/home.html', {'courts': courts})
 
 # Đăng ký tài khoản
 def register_view(request):

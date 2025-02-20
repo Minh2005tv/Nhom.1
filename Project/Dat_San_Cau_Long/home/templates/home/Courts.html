@@ -1,6 +1,25 @@
 {% extends "master.html" %}
 
 {% block content %}
+<style>
+/* Tăng kích thước chữ và khoảng cách trong bảng */
+table.table th,
+table.table td {
+    font-size: 1.2em; /* Tăng cỡ chữ */
+    padding: 25px 10px; /* Tăng khoảng cách bên trong ô */
+}
+
+/* Căn chỉnh nội dung giữa ô */
+table.table th {
+    text-align: center;
+}
+
+/* Canh giữa dữ liệu trong ô */
+table.table td {
+    vertical-align: middle;
+}
+</style>
+
 <div class="card" style="margin-left: -200px; width: calc(100% + 140px);">
   <h5 class="card-header text-start d-flex justify-content-between align-items-center" style="font-size: 2em; font-weight: bold; position: relative;">
     Badminton Courts & Schedule
