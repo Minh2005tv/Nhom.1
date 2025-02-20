@@ -1,70 +1,80 @@
 {% extends "master.html" %}
 
+{% block left-menu %}
+  {% include 'left-menu.html' %}
+{% endblock %}
+
 {% block content %}
-<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background-color: #f8f9fa;">
-    <div class="card shadow p-4" style="width: 100%; max-width: 800px; border-radius: 20px;">
-        <h2 class="text-center mb-4" style="font-size: 1.8em; font-weight: bold;">Booking Court</h2>
-        <div class="card-body">
-            <form method="POST">
-                {% csrf_token %}
+<div class="container-fluid" style="min-height: 100vh; background-color: #eef2f7;">
+    <div class="row align-items-center justify-content-center" style="min-height: 100vh;">
+        
+        <!-- Cột chứa ảnh -->
+        <div class="col-md-6 d-flex flex-column align-items-center">
+            <img id="courtImage" 
+                src="https://rackonnect.com/wp-content/uploads/2024/02/both-mobile-1-768x886.png" 
+                style="margin-left: -200px; margin-top: 60px; width: 100%; max-width: 100%; border-radius: 10px;">
+        </div>
 
-                <div class="mb-3">
-                    <label for="name_court" class="form-label"><strong>Name Court</strong></label>
-                    <input type="text" class="form-control" id="name_court" name="name_court" value="{{ request.GET.name_court }}" required readonly>
-                </div>
+        <!-- Cột chứa form -->
+        <div class="col-md-6">
+            <div class="card shadow-lg p-5" style="max-width: 750px; border-radius: 16px; background: white; margin: auto;">
+                <h2 class="text-center mb-4" style="font-size: 1.8em; font-weight: bold; color: #333;">Booking Court</h2>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Name Court</label>
+                            <input type="text" class="form-control" name="name_court" value="{{ request.GET.name_court }}" readonly>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="start_time" class="form-label"><strong>Start Time</strong></label>
-                    <input type="time" class="form-control" id="start_time" name="start_time" value="{{ request.GET.start_time }}">
-                </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Start Time</label>
+                                <input type="time" class="form-control" name="start_time" value="{{ request.GET.start_time }}">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">End Time</label>
+                                <input type="time" class="form-control" name="end_time" value="{{ request.GET.end_time }}">
+                            </div>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="end_time" class="form-label"><strong>End Time</strong></label>
-                    <input type="time" class="form-control" id="end_time" name="end_time" value="{{ request.GET.end_time }}">
-                </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Type Court</label>
+                            <input type="text" class="form-control" name="type_court" value="{{ request.GET.type_court }}" readonly>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="type_court" class="form-label"><strong>Type Court</strong></label>
-                    <input type="text" class="form-control" id="type_court" name="type_court" value="{{ request.GET.type_court }}" required readonly>
-                </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Cost Court (VND)</label>
+                            <input type="number" class="form-control" name="cost_court" value="{{ request.GET.cost_court }}" readonly>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="cost_court" class="form-label"><strong>Cost Court (VND)</strong></label>
-                    <input type="number" class="form-control" id="cost_court" name="cost_court" value="{{ request.GET.cost_court }}" required readonly>
-                </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Location</label>
+                            <input type="text" class="form-control" name="location" value="{{ request.GET.location }}" readonly>
+                        </div>
 
-                <div class="mb-3">
-                    <label for="location" class="form-label"><strong>Location</strong></label>
-                    <input type="text" class="form-control" id="location" name="location" value="{{ request.GET.location }}" required readonly>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#confirmBookingModal">Book Now</button>
+                            <a href="{% url 'Courts' %}" class="btn btn-outline-secondary px-4">Cancel</a>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="mb-3 text-center">
-                    <button type="button" class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#confirmBookingModal">Book Now</button>
-                    <a href="{% url 'Courts' %}" class="btn btn-secondary px-4">Cancel</a>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Modal Xác Nhận Thanh Toán -->
-<div class="modal fade" id="confirmBookingModal" tabindex="-1" aria-labelledby="confirmBookingModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmBookingModalLabel">Xác nhận thanh toán</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Bạn có chắc chắn muốn đặt sân này không?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+<script>
+document.getElementById("imageUpload").addEventListener("change", function(event) {
+    let file = event.target.files[0];
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("courtImage").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
 
-                <a href="{% url 'Payments' %}?cost_court={{ request.GET.cost_court }}&name_court={{ request.GET.name_court }}&type_court={{ request.GET.type_court }}&start_time={{ request.GET.start_time }}&end_time={{ request.GET.end_time }}&location={{ request.GET.location }}" class="btn btn-success">Xác nhận</a>
-
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
