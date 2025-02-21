@@ -11,7 +11,7 @@ from .models import Payment
 # Home view
 def home(request):
     courts = Court.objects.all()
-    return render(request, 'home/home.html', {'courts': courts})
+    return render(request, 'home.html', {'courts': courts})
 
 # Đăng ký tài khoản
 def register_view(request):
@@ -21,15 +21,15 @@ def register_view(request):
         confirm_password = request.POST.get("password2")
         if password != confirm_password:
             messages.error(request, "Mật khẩu không khớp!")
-            return render(request, "home/register.html")
+            return render(request, "home/Customer/register.html")
         if User.objects.filter(username=username).exists():
             messages.error(request, "Tên đăng nhập đã tồn tại!")
-            return render(request, "home/register.html")
+            return render(request, "home/Customer/register.html")
         user = User.objects.create_user(username=username, password=password)
         user.save()
         messages.success(request, "Đăng ký thành công! Vui lòng đăng nhập.")
         return redirect("customer_login")  # Chuyển về trang đăng nhập
-    return render(request, "home/register.html")
+    return render(request, "home/Customer/register.html")
 
 
 # Đăng nhập khách hàng
@@ -55,13 +55,13 @@ def customer_login(request):
             return redirect(next_url)
         else:
             messages.error(request, "Tên đăng nhập hoặc mật khẩu không đúng!")
-    return render(request, "home/customer-login.html")
+    return render(request, "home/Customer/customer-login.html")
 
 
 # List all Payments
 def Payments(request):
     payments = Payment.objects.all()
-    return render(request, 'home/Payments.html', {'payments': payments})
+    return render(request, 'home/Payment/Payments.html', {'payments': payments})
 
 
 # Edit a Payment
@@ -87,7 +87,7 @@ def edit_Payment(request, id):
         else:
             return JsonResponse({"status": "failed", "message": "Thanh toán thất bại!"})
 
-    return render(request, 'home/Payment-edit.html', {'payment': payment})
+    return render(request, 'home/Payment/Payment-edit.html', {'payment': payment})
 
 
 
@@ -102,13 +102,13 @@ def PaymentNew(request):
             return redirect("Payments")
     else:
         form = PaymentNewForm()
-    return render(request, 'home/Payment-new.html', {'form': form})
+    return render(request, 'home/Payment/Payment-new.html', {'form': form})
 
 
 # List all Courts
 def Court_KH(request, id=None):
     courts = Court.objects.all()
-    template = loader.get_template('home/Court-KH.html')
+    template = loader.get_template('home/Court/Court-KH.html')
     context = {
         'courts': courts,
     }
@@ -117,7 +117,7 @@ def Court_KH(request, id=None):
 
 def Courts(request):
     courts = Court.objects.all()
-    template = loader.get_template('home/Courts.html')
+    template = loader.get_template('home/Court/Courts.html')
     context = {
         'courts': courts,
     }
@@ -146,7 +146,7 @@ def edit_Court(request, id):
     else:
         form = CourtEditForm(court=court)
 
-    return render(request, 'home/Court-edit.html', {'form': form, 'court': court})
+    return render(request, 'home/Court/Court-edit.html', {'form': form, 'court': court})
 
 
 # Add a new court
@@ -180,7 +180,7 @@ def CourtNew(request):
     else:
         form = CourtNewForm()
 
-    return render(request, 'home/Court-new.html', {'form': form})
+    return render(request, 'home/Court/Court-new.html', {'form': form})
 
 
 # Delete court
@@ -201,7 +201,7 @@ def delete_court(request, court_id):
 # List all Payments
 def Bookings(request):
     Bookings = Booking.objects.all()  # Fixed variable naming
-    template = loader.get_template('home/Bookings.html')
+    template = loader.get_template('home/Booking/Bookings.html')
     context = {
         'Bookings': Bookings,  # Updated context key
     }
