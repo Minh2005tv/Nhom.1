@@ -8,11 +8,12 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            padding-top: 60px; /* Để nội dung không bị che */
         }
         .navbar {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: space-between; /* Chia bố cục thành 3 phần */
             padding: 10px 20px;
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -21,12 +22,20 @@
             top: 0;
             left: 0;
             z-index: 1000;
+            height: 60px; /* Điều chỉnh phù hợp */
         }
+
+        /* Logo sẽ đứng riêng, không ảnh hưởng menu */
+        .nav-left {
+            flex-shrink: 0; /* Không bị co lại */
+        }
+
+        /* Menu nằm giữa, không bị lệch */
         .menu {
             list-style: none;
             display: flex;
             gap: 20px;
-            margin-right: 20px;
+            margin: 0 auto; /* Đảm bảo menu luôn ở giữa */
         }
         .menu li {
             position: relative;
@@ -35,7 +44,8 @@
             text-decoration: none;
             color: black;
             font-weight: bold;
-            padding: 10px;
+            font-size: 25px; /* Tăng kích thước chữ */
+            padding: 20px;
         }
         .menu li:hover a {
             color: #fb9360;
@@ -57,10 +67,58 @@
             border: none;
             cursor: pointer;
         }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .logo a {
+            animation: fadeIn 0.8s ease-in-out;
+            display: flex;
+            align-items: center;
+            font-size: 50px; /* Tăng kích thước */
+            font-weight: bold;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif; /* Font đẹp hơn */
+            letter-spacing: 4px; /* Tạo khoảng cách */
+            text-transform: uppercase; /* Chữ in hoa */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .logo-blue {
+            color: #121497; /* Xanh đậm hơn cho nổi bật */
+            font-weight: bold;
+        }
+
+        .logo-smash {
+            margin-left: 4px; /* Chỉnh khoảng cách giữa "CLICK" và "SMASH" */
+        }
+
+        .logo a:hover {
+            transform: scale(1.05); /* Phóng to nhẹ */
+            text-shadow: 2px 2px 10px rgba(0, 71, 171, 0.3); /* Tạo đổ bóng */
+        }
+        .logo {
+            margin-left: 60px; /* Tăng khoảng cách logo với menu */
+        }
     </style>
 </head>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
 <body>
     <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <a href="http://127.0.0.1:8000">
+                    <span class="logo-blue">CLICK</span>
+                    <span class="logo-blue logo-smash">SMASH</span>
+                </a>
+            </div>
+        </div>
         <ul class="menu">
             <li><a href="http://127.0.0.1:8000">Home</a></li>
             <li><a href="http://127.0.0.1:8000/Court-KH/">Court</a></li>
@@ -88,75 +146,74 @@
           <!-- / Navbar -->
 
           <!-- Content wrapper -->
-          <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RacKonnect - Đặt Sân Cầu Lông</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+ 
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>ClickSmash - Đặt Sân Cầu Lông</title>
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                    font-family: Arial, sans-serif;
+                }
 
-        body {
-            background: #ffffff;
-        }
+                body {
+                    background: #ffffff;
+                }
 
-        /* Giữ khoảng trống cho menu */
-        .content {
-            padding-top: 80px;
-        }
+                /* Giữ khoảng trống cho menu */
+                .content {
+                    padding-top: 80px;
+                }
 
-        .container {
-            display: flex;
-            max-width: 1800px;
-            align-items: center;
-            gap: 120px;
-            margin: 0 auto;
-        }
+                .container {
+                    display: flex;
+                    max-width: 1800px;
+                    align-items: center;
+                    gap: 120px;
+                    margin: 0 auto;
+                }
 
-        .left {
-            flex: 1;
-            display: flex;
-            justify-content: flex-end;
-        }
+                .left {
+                    flex: 1;
+                    display: flex;
+                    justify-content: flex-end;
+                }
 
-        .left img {
-            width: 100%;
-            max-width: 750px;
-        }
+                .left img {
+                    width: 100%;
+                    max-width: 750px;
+                }
 
-        .right {
-            flex: 1;
-            max-width: 600px;
-            text-align: left;
-        }
+                .right {
+                    flex: 1;
+                    max-width: 600px;
+                    text-align: left;
+                }
 
-        .right h1 {
-            font-size: 50px;
-            font-weight: bold;
-            line-height: 1.2;
-        }
+                .right h1 {
+                    font-size: 50px;
+                    font-weight: bold;
+                    line-height: 1.2;
+                }
 
-        .right h1 span.orange { color: #fb9360; }
-        .right h1 span.blue { color: #0d2a75; }
+                .right h1 span.orange { color: #fb9360; }
+                .right h1 span.blue { color: #0d2a75; }
 
-        .right p {
-            font-size: 22px;
-            margin: 20px 0;
-            color: #333;
-        }
+                .right p {
+                    font-size: 22px;
+                    margin: 20px 0;
+                    color: #333;
+                }
 
-        .google-play img {
-            width: 250px;
-            cursor: pointer;
-        }
-    </style>
-</head>
+                .google-play img {
+                    width: 250px;
+                    cursor: pointer;
+                }
+            </style>
+    </head>
 <body>
 
     <!-- Load Menu bằng JavaScript -->
@@ -169,7 +226,7 @@
                 <img src="https://rackonnect.com/wp-content/uploads/2024/02/both-mobile-1-768x886.png" alt="App Preview">
             </div>
             <div class="right">
-                <h1><span class="orange">Book Badminton Court With </span><span class="blue">Rac</span><span class="orange">konnect</span></h1>
+                <h1><span class="orange">Book Badminton Court With </span><span class="blue">Click</span><span class="orange">Smash</span></h1>
                 <p>Book badminton courts online and connect with nearby players for seamless meeting and playing opportunities.</p>
                 <div class="interactive-button-wrapper">
   <a class="interactive-button" href="http://127.0.0.1:8000/Court-KH/" data-container-navigation-controller="true">
