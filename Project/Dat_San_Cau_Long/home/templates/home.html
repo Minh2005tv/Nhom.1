@@ -67,6 +67,22 @@
             border: none;
             cursor: pointer;
         }
+        .search-box {
+    width: 120px; /* Ban đầu nhỏ */
+    overflow: hidden;
+    transition: width 0.4s ease-in-out;
+}
+
+.search-box input {
+    width: 100%;
+}
+
+/* Khi di chuột vào hoặc focus vào thanh tìm kiếm, nó mở rộng */
+.search-box:hover, 
+.search-box:focus-within {
+    width: 250px;
+}
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -127,8 +143,8 @@
             
         </ul>
         <div class="search-box">
-            <input type="text" placeholder="Search...">
-            <button>&#128269;</button>
+            <input type="text" placeholder="New Court" >
+            <button>&#127992;</button>
         </div>
     </nav>
 </body>
