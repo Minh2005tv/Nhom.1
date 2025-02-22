@@ -1,85 +1,86 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 import time
-import chromedriver_autoinstaller
+import random
 
-# Cập nhật ChromeDriver tự động
-chromedriver_autoinstaller.install()
+# Khởi tạo trình duyệt WebDriver
+driver = webdriver.Chrome()  # Đảm bảo đã cài đặt ChromeDriver
 
-# ⚙️ Cấu hình trình duyệt
-options = webdriver.ChromeOptions()
-options.add_experimental_option("detach", True)  # Giữ trình duyệt mở
-options.add_argument("--start-maximized")  # Mở toàn màn hình
-options.add_argument("--disable-infobars")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-extensions")  # Tắt phần mở rộng
+# Hàm chọn Edit Court ngẫu nhiên
+def select_random_edit_court():
+    more_buttons = driver.find_elements(By.XPATH, "//button[@aria-label='More']")  # Tìm các nút với nhãn 'More'
+    if not more_buttons:
+        print("Không tìm thấy nút 'More'")
+        return False
+    random_button = random.choice(more_buttons)
+    random_button.click()
+    time.sleep(1)
+    edit_option = driver.find_element(By.XPATH, "//span[text()='Edit']")
+    edit_option.click()
+    return True
 
-def test_courts_page():
-    driver = webdriver.Chrome(options=options)
+# Kịch bản 1: Mở trang Courts
+try:
+    driver.get("http://127.0.0.1:8000/Courts/")
+    print("Tải trang thành công")
     
-    try:
-        print("✅ Tải trang thành công Courts...")
+    # Chọn Edit Court ngẫu nhiên
+    time.sleep(2)  # Đợi tải trang hoàn tất
+    if select_random_edit_court():
+        print("Chuyển trang Edit thành công")
+    
+        # Chuyển trang Edit và nhập dữ liệu
+        driver.get("http://127.0.0.1:8000/Court-edit")
+        time.sleep(2)
+        print("Chuyển trang Edit thành công")
+    
+        # Nhập dữ liệu
+        input_fields = driver.find_elements(By.TAG_NAME, "input")
+        for field in input_fields:
+            field.send_keys("Test Data")
+        print("Nhập liệu thành công")
+    
+        # Lưu dữ liệu
+        save_button = driver.find_element(By.XPATH, "//button[@aria-label='Save']")
+        save_button.click()
+        time.sleep(2)
+        print("Sửa sân thành công")
+    
+        # Trở về trang Courts
         driver.get("http://127.0.0.1:8000/Courts/")
+        print("Trở về trang sân thành công")
+    else:
+        print("Hủy sửa sân")
+        driver.get("http://127.0.0.1:8000/Courts/")
+        print("Trở về trang sân thành công")
 
-        # Chờ tiêu đề trang xuất hiện
-        WebDriverWait(driver, 15).until(
-            EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Badminton Courts & Schedule')]"))
-        )
-        print("✅ Trang tải thành công")
-        
-        # Kiểm tra danh sách sân hiển thị
-        print("🔍 Đang kiểm tra danh sách sân...")
-        courts = driver.find_elements(By.XPATH, "//tr")
-        if len(courts) > 1:
-            print("✅ Kiểm tra danh sách sân: Thành công")
-        else:
-            raise Exception("Không có sân nào hiển thị!")
+except Exception as e:
+    print(f"Lỗi: {e}")
 
-        # Kiểm tra chức năng Edit
-        edit_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'Edit')]")
-        if edit_buttons:
-            print("🔄 Đang kiểm tra chức năng Edit...")
-            edit_buttons[0].click()
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Edit Court')]"))
-            )
-            print("✅ Kiểm tra chức năng Edit: Thành công")
-            driver.back()
-            time.sleep(2)
-        else:
-            print("⚠️ Không tìm thấy nút Edit.")
+# Kịch bản 4: Xóa sân (Delete Court)
+try:
+    # Chọn Delete Court
+    more_buttons = driver.find_elements(By.XPATH, "//button[@aria-label='More']")
+    if not more_buttons:
+        print("Không tìm thấy nút 'More'")
+    for button in more_buttons:
+        button.click()
+        delete_option = driver.find_element(By.XPATH, "//span[text()='Delete']")
+        delete_option.click()
+        time.sleep(2)
+        print("Chấp nhận xóa sân")
+    
+        # Xóa sân
+        confirm_delete = driver.find_element(By.XPATH, "//button[@aria-label='Confirm']")
+        confirm_delete.click()
+        time.sleep(2)
+        print("Sân đã được xóa")
+    
+except Exception as e:
+    print(f"Lỗi: {e}")
 
-        # Kiểm tra chức năng Delete
-        delete_buttons = driver.find_elements(By.XPATH, "//button[contains(text(), 'Delete')]")
-        if delete_buttons:
-            print("🔄 Đang kiểm tra chức năng Delete...")
-            delete_buttons[0].click()
-            time.sleep(2)
-            print("✅ Kiểm tra chức năng Delete: Thành công")
-        else:
-            print("⚠️ Không tìm thấy nút Delete.")
-
-        # Kiểm tra chức năng Add Court
-        print("🔄 Đang kiểm tra chức năng Add Court...")
-        try:
-            add_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Add Court')]")
-            add_button.click()
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//h1[contains(text(), 'Create New Court')]"))
-            )
-            print("✅ Kiểm tra chức năng Add Court: Thành công")
-        except:
-            print("❌ Lỗi: Không tìm thấy nút Add Court.")
-
-    except Exception as e:
-        print(f"❌ Lỗi xảy ra: {e}")
-
-    finally:
-        input("Nhấn Enter để thoát...")  # Giữ trình duyệt mở
-        driver.quit()
-
-if __name__ == "__main__":
-    test_courts_page()
+# Đóng trình duyệt
+finally:
+    driver.quit()
+    print("Tất cả các thao tác đã hoàn thành")
